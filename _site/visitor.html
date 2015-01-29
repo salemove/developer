@@ -27,126 +27,167 @@
 
 
 
-<h3 id="salemove-public-api">Salemove public API.</h3>
-<p>Welcome to SaleMove public API</p>
+<h1 id="operator-public-api">Operator public API.</h1>
+<p>The visitor public API consist of HTTP REST endpoints and javscript API. The API can only be used straight in the visitor browser on the site - it cannot be used by third party services outside the site.</p>
 
-<h3 id="api-types">API types</h3>
+<h2 id="headers">Headers</h2>
+<p>To use the REST API, the request needs to include at least 3 headers: <code>Authorization</code>, <code>Accept</code> and <code>X-Salemove-Visit-Session-ID</code></p>
 
-<p>The Salemove has 2 types of API-s. The visitor side and the operator side API.</p>
+<h3 id="authorization">Authorization</h3>
+<p>To use the REST API, the request needs to include the visitors <code>SessionId</code>. To get the visitor session id on the site, you can use the following snipper of code:</p>
 
-<p>The visitor side API can be accessed directly through the visitor browser. The API contains both public REST endpoints and javascript API. The REST endpoints require visitor session id for authentication.</p>
+<pre><code>'Authorization', 'SessionId ' + sm.persistentDataStore.get('session_id')
+</code></pre>
 
-<p>The operator side API contains public REST endpoints that can be accessed by an operator with manager privileges. To use the REST endpoints, either the operator authentication or api token must be used for authentication. The api token can be received by contacting our support.</p>
+<h3 id="accept-token">Accept token</h3>
 
-<h3 id="current-version">Current version</h3>
+<p>The API version must be explicitly set in the request <code>Accept</code> header.</p>
 
-<p>The current api version is <strong>v1</strong> and this must be explicitly set in the request <code>Accept</code> header.
-<code>
-Accept: application/vnd.salemove.v1+json
-</code></p>
+<pre><code>Accept: application/vnd.salemove.v1+json
+</code></pre>
 
-<h3 id="schema">Schema</h3>
+<h3 id="accept-token-1">Accept token</h3>
+<p>The request also needs to include <code>X-Salemove-Visit-Session-ID</code>. You can get it the following way:</p>
 
-<p>All API access is over HTTPS and accessed from <code>api.salemove.com</code> domain. All data is sent and received as JSON</p>
+<pre><code>'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id
+</code></pre>
 
-<p>```
-$ curl -i https://api.salemove.com/engagements HEADER_DATA</p>
+<h3 id="full-ajax-example">Full ajax example</h3>
+<p>Here is a full ajax request example with all the headers</p>
 
-<p>HTTP/1.1 200 OK
-Date: Thu, 29 Jan 2015 11:44:37 GMT
-Status: 200 OK
-Connection: close
-Content-Type: text/html;charset=utf-8
-Access-Control-Allow-Origin: http://sm.dev:3001
-Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH
-Access-Control-Allow-Headers: *, Content-Type, Accept, AUTHORIZATION, Cache-Control, X-Salemove-Visit-Session-Id
-Access-Control-Allow-Credentials: true
-Access-Control-Max-Age: 1728000
-Access-Control-Expose-Headers: Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma
-Content-Length: 0
-X-XSS-Protection: 1; mode=block
-X-Content-Type-Options: nosniff
-X-Frame-Options: SAMEORIGIN</p>
+<pre><code>$.ajax({
+  type: 'GET',
+  url: 'https://api.salemove.com/visitor',
+  headers: {
+    'Accept': 'application/vnd.salemove.v1+json',
+    'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id,
+    'Authorization', 'SessionId ' + sm.persistentDataStore.get('session_id')
+  },
+  success: function(response){
+      ajaxResponse = response;
+  }
+});
+</code></pre>
 
-<p>[]
-```</p>
+<h1 id="rest-api">REST API</h1>
 
-<p>Blank fields are included as null instead of being omitted.</p>
+<h2 id="get-current-visitor">Get current visitor</h2>
 
-<p>All timestamps are returned in ISO 8601 format:
-<code>
-YYYY-MM-DDTHH:MM:SSZ
-</code></p>
+<pre><code>GET /visitor
+</code></pre>
 
-<h2 id="collections-or-list-of-resources">Collections or list of resources</h2>
+<p>Fetches the information of current visitor on the site.</p>
 
-<p>Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. FYou can also set a custom page size up to 100 with the ?per_page parameter.</p>
+<ul>
+  <li>
+    <p>Response 200 (application/json)</p>
 
-<h1 id="example">Example</h1>
-<p>When you fetch all the operators that a manager can manage, then the first 30 operators are returned:
-<code>
-GET /operators
-</code>
-To get the second page of the operators, add a <code>page=2</code> to the request, e.g.:
-<code>
-GET /operators?page=2
-</code></p>
-
-<h3 id="client-errors">Client errors</h3>
-
-<p>When a request throws an error, it also returns a JSON describing that error. Often the JSON contains both error and a debug message, which can help you diagnose problems better.
-<code>
-HTTP/1.1 400 400
-{
-  error: 'BadRequest',
-  message: 'Invalid api version used',
-  debug_message: 'Invalid api version used. Make sure you set the "Accept" header with API version e.g. "application/vnd.salemove.v1+json"'
+    <pre><code>{
+  "href" =&gt; 'http://sm.dev:3004/visitor',
+  "name" =&gt; 'John',
+  "email" =&gt; 'test@email.com',
+  "phone" =&gt; '55443322',
+  "note" =&gt; 'some random dude',
+  "custom_attributes" =&gt; {
+    "home_address" =&gt; 'Winston',
+    "vip" =&gt; "true"
+  }
 }
-</code></p>
+</code></pre>
+  </li>
+</ul>
 
-<h3 id="http-verbs">HTTP Verbs</h3>
+<h2 id="update-current-visitor">Update current visitor</h2>
 
-<p>Where possible, API v3 strives to use appropriate HTTP verbs for each
-action.</p>
+<pre><code>POST /visitor
+</code></pre>
 
-<table>
-  <thead>
-    <tr>
-      <th>Verb</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>HEAD</code></td>
-      <td>Can be issued against any resource to get just the HTTP header info.</td>
-    </tr>
-    <tr>
-      <td><code>GET</code></td>
-      <td>Used for retrieving resources.</td>
-    </tr>
-    <tr>
-      <td><code>POST</code></td>
-      <td>Used for creating resources.</td>
-    </tr>
-    <tr>
-      <td><code>PATCH</code></td>
-      <td>Used for updating resources with partial JSON data.  For instance, an Issue resource has <code>title</code> and <code>body</code> attributes.  A PATCH request may accept one or more of the attributes to update the resource.  PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept <code>POST</code> requests.</td>
-    </tr>
-    <tr>
-      <td><code>PUT</code></td>
-      <td>Used for replacing resources or collections. For <code>PUT</code> requests with no <code>body</code> attribute, be sure to set the <code>Content-Length</code> header to zero.</td>
-    </tr>
-    <tr>
-      <td><code>DELETE</code></td>
-      <td>Used for deleting resources.</td>
-    </tr>
-  </tbody>
-</table>
+<p>Updates the information of the current visitor on the site.</p>
 
-<h3 id="cross-origin-resource-sharing">Cross Origin Resource Sharing</h3>
+<ul>
+  <li>
+    <p>Request body</p>
 
-<p>The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin. You can read the CORS W3C Recommendation, or this intro from the HTML 5 Security Guide.</p>
+    <pre><code>}
+  "name" =&gt; 'John',
+  "email" =&gt; 'test@email.com',
+  "phone" =&gt; '55443322',
+  "note" =&gt; 'some random dude',
+  "custom_attributes" =&gt; {
+    "home_address" =&gt; 'Winston',
+    "vip" =&gt; "true"
+  }
+}
+</code></pre>
+  </li>
+  <li>
+    <p>Response 200 (application/json)</p>
+
+    <pre><code>{
+  "href" =&gt; 'http://sm.dev:3004/visitor',
+  "name" =&gt; 'John',
+  "email" =&gt; 'test@email.com',
+  "phone" =&gt; '55443322',
+  "note" =&gt; 'some random dude',
+  "custom_attributes" =&gt; {
+    "home_address" =&gt; 'Winston',
+    "vip" =&gt; "true"
+  }
+}
+</code></pre>
+  </li>
+</ul>
+
+<h1 id="javascript-api">Javascript API</h1>
+
+<h2 id="fetching-the-api">Fetching the API</h2>
+<p>Fetching the API will return a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">promise</a>. Once all SaleMove scripts have been loaded on the site, the promise will resolve and return the javascript API.</p>
+
+<pre><code>sm.getApi().then(
+    function(api){
+      console.log("I got the api!", api);
+      window.salemoveApi = api;
+    },
+    function(err){ console.log("An error occured: ", err)}
+  );
+</code></pre>
+
+<h2 id="events">#EVENTS</h2>
+
+<pre><code>ENGAGEMENT_START
+ENGAGEMENT_END
+</code></pre>
+
+<p>All the available events that the SaleMove platform can fire are listed under the <code>EVENTS</code> variable.</p>
+
+<pre><code>salemoveApi.EVENTS.ENGAGEMENT_START
+</code></pre>
+
+<h2 id="addeventlistener">#addEventListener</h2>
+
+<pre><code>addEventListener(eventName, callback)
+</code></pre>
+
+<p>To add an event listener to the API, you can use the <code>addEventListener</code> method. The callback will be fired when SaleMove application fires the event</p>
+
+<pre><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  function(args){ console.log('the engagement ended!')}
+);
+</code></pre>
+
+<h2 id="removeeventlistener">#removeEventListener</h2>
+
+<pre><code>removeEventListener(eventName, callback)
+</code></pre>
+
+<p>You can remove callbacks from the salemove api object listeners, provided you give the same callback to the function that you did when you added the event.</p>
+
+<pre><code>salemoveApi.removeEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  my_function}
+);
+</code></pre>
 
 
 </section>

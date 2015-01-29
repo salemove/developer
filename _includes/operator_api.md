@@ -1,95 +1,240 @@
-### Salemove public API.
-Welcome to SaleMove public API
+# Operator public API.
+The operator public API consist of HTTP REST endpoints. This means it can be used through browser, command line, by another server, etc.
 
-### API types
+## Headers
+To use the REST API, the request needs to include at least 2 headers: ```Authorization``` and ```Accept```
 
-The Salemove has 2 types of API-s. The visitor side and the operator side API.
+### Authorization
+To use the REST API, the request needs to include either the operator ```SessionId``` or ```ApiToken```. The preferred approach is using API token, which you can request from our support. The API token is given per operator and currently only operators with manager status have privileges to use them.
 
-The visitor side API can be accessed directly through the visitor browser. The API contains both public REST endpoints and javascript API. The REST endpoints require visitor session id for authentication.
+#### API token example
+To use an API token, request the API token from our support and attach it to the request headers. An example with curl:
 
-The operator side API contains public REST endpoints that can be accessed by an operator with manager privileges. To use the REST endpoints, either the operator authentication or api token must be used for authentication. The api token can be received by contacting our support.
 
-### Current version
+    curl -i https://api.salemove.com/engagements --header "Authorization: ApiToken MY_SECRET_API_TOKEN"
 
-The current api version is **v1** and this must be explicitly set in the request ```Accept``` header.
-```
-Accept: application/vnd.salemove.v1+json
-```
 
-### Schema
+Example with javascript:
 
-All API access is over HTTPS and accessed from ```api.salemove.com``` domain. All data is sent and received as JSON
 
-```
-$ curl -i https://api.salemove.com/engagements HEADER_DATA
+    $.ajax({
+      type: 'GET',
+      url: 'https://api.salemove.com/engagements',
+      headers: {
+        'Authorization': 'ApiToken MY_SECRET_API_TOKEN'
+      },
+      success: function(response){
+          ajaxResponse = response;
+      }
+    });
 
-HTTP/1.1 200 OK
-Date: Thu, 29 Jan 2015 11:44:37 GMT
-Status: 200 OK
-Connection: close
-Content-Type: text/html;charset=utf-8
-Access-Control-Allow-Origin: http://sm.dev:3001
-Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH
-Access-Control-Allow-Headers: *, Content-Type, Accept, AUTHORIZATION, Cache-Control, X-Salemove-Visit-Session-Id
-Access-Control-Allow-Credentials: true
-Access-Control-Max-Age: 1728000
-Access-Control-Expose-Headers: Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma
-Content-Length: 0
-X-XSS-Protection: 1; mode=block
-X-Content-Type-Options: nosniff
-X-Frame-Options: SAMEORIGIN
 
-[]
-```
+### Accept token
 
-Blank fields are included as null instead of being omitted.
+The API version must be explicitly set in the request ```Accept``` header.
 
-All timestamps are returned in ISO 8601 format:
-```
-YYYY-MM-DDTHH:MM:SSZ
-```
+    Accept: application/vnd.salemove.v1+json
 
-## Collections or list of resources
+# REST API
 
-Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. FYou can also set a custom page size up to 100 with the ?per_page parameter.
+## List engagements
 
-# Example
-When you fetch all the operators that a manager can manage, then the first 30 operators are returned:
-```
-GET /operators
-```
-To get the second page of the operators, add a ```page=2``` to the request, e.g.:
-```
-GET /operators?page=2
-```
+    GET /enagements
 
-### Client errors
+Fetches a collection of all engagements that the current manager can see. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and ordered by ascending ID.
 
-When a request throws an error, it also returns a JSON describing that error. Often the JSON contains both error and a debug message, which can help you diagnose problems better.
-```
-HTTP/1.1 400 400
-{
-  error: 'BadRequest',
-  message: 'Invalid api version used',
-  debug_message: 'Invalid api version used. Make sure you set the "Accept" header with API version e.g. "application/vnd.salemove.v1+json"'
-}
-```
++ Response 200 (application/json)
 
-### HTTP Verbs
+      [{
+        "href" => "https://api.salemove.com/engagements/#{first_engagement.id}",
+        "duration" => 30,
+        "operators" => [
+          {
+            "href" => "https://api.salemove.com/operators/#{first_operator.id}"
+          }
+        ],
+        "visitor" => {
+          "href" => "https://api.salemove.com/visitors/#{visitor.id}"
+        },
+        "chat_transcript" =>
+        {
+          "href" => "https://api.salemove.com/engagements/#{first_engagement.id}/chat_trascript"
+        },
+        "audio_recording" =>
+        {
+          "href" => "https://api.salemove.com/recording/url"
+        }
+      },
+      {
+        "href" => "https://api.salemove.com/engagements/#{second_engagement.id}",
+        "duration" => 30,
+        "operators" => [
+          {
+            "href" => "https://api.salemove.com/operators/#{second_operator.id}"
+          }
+        ],
+        "visitor" => {
+          "href" => "https://api.salemove.com/visitors/#{second_visitor.id}"
+        },
+        "chat_transcript" =>
+        {
+          "href" => "https://api.salemove.com/engagements/#{second_engagement.id}/chat_trascript"
+        },
+        "audio_recording" => { "href" => nil }
+      }]
 
-Where possible, API v3 strives to use appropriate HTTP verbs for each
-action.
 
-Verb | Description
------|-----------
-`HEAD` | Can be issued against any resource to get just the HTTP header info.
-`GET` | Used for retrieving resources.
-`POST` | Used for creating resources.
-`PATCH` | Used for updating resources with partial JSON data.  For instance, an Issue resource has `title` and `body` attributes.  A PATCH request may accept one or more of the attributes to update the resource.  PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept `POST` requests.
-`PUT` | Used for replacing resources or collections. For `PUT` requests with no `body` attribute, be sure to set the `Content-Length` header to zero.
-`DELETE` |Used for deleting resources.
+## Get single engagement
 
-### Cross Origin Resource Sharing
+    GET /enagement/:engagement_id
 
-The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin. You can read the CORS W3C Recommendation, or this intro from the HTML 5 Security Guide.
+Fetches an engagement. The manager needs to have access to the site that the engagement took place on.
 
++ Response 200 (application/json)
+
+      {
+        "href" => "https://api.salemove.com/engagements/#{first_engagement.id}",
+        "duration" => 30,
+        "operators" => [
+          {
+            "href" => "https://api.salemove.com/operators/#{first_operator.id}"
+          }
+        ],
+        "visitor" => {
+          "href" => "https://api.salemove.com/visitors/#{visitor.id}"
+        },
+        "chat_transcript" =>
+        {
+          "href" => "https://api.salemove.com/engagements/#{first_engagement.id}/chat_trascript"
+        },
+        "audio_recording" =>
+        {
+          "href" => "https://api.salemove.com/recording/url"
+        }
+      }
+
+## Get engagement chat transcript
+
+    GET /enagement/:engagement_id/chat_transcript
+
+Fetches the engagements chat transcript. The manager needs to be able to have access site that the chat took place on.
+
++ Response 200 (application/json)
+
+      [
+        {
+          "message" => "This",
+          "created_at" => message1.created_at,
+          "sender" => {
+            "href" => "https://api.salemove.com:visitors/#{visitor.id}",
+            "name" => nil,
+            "type" => "visitor"
+          }
+        },
+        {
+          "message" => "is",
+          "created_at" => message2.created_at,
+          "sender" => {
+            "href" => "https://api.salemove.com:operators/#{first_operator.id}",
+            "name" => "Kalle Kaalikas",
+            "type" => "operator"
+          }
+        },
+        {
+          "message" => "chat",
+          "created_at" => message3.created_at,
+          "sender" => {
+            "href" => "https://api.salemove.com:operators/#{first_operator.id}",
+            "name" => 'Kalle Kaalikas',
+            "type" => 'operator'
+          }
+        }
+      ]
+
+## Get visitor by id
+
+    GET /visitors/:visitor_id
+
+Fetches the engagements chat transcript. The manager needs to be able to have access to the site that the visitor visited.
+
++ Response 200 (application/json)
+
+      {
+        "href" => "https://api.salemove.com/visitors/#{visitor.id}",
+        "name" => 'John',
+        "email" => 'test@email.com',
+        "phone" => '55443322',
+        "note" => 'some random dude',
+        "custom_attributes" => {
+          "home_address" => 'Winston',
+          "vip" => "true"
+        }
+      }
+
+## List operators
+
+    GET /operators
+
+Fetches an operator that the manager can administer. The manager needs to have access to the site to be able to fetch an operator from there.
+
++ Response 200 (application/json)
+
+      [{
+        "href" => "https://api.salemove.com/operators/#{snd_operator.id}",
+        "name" => 'John',
+        "email" => 'test@email.com',
+        "phone" => '55443322',
+        "available" => true,
+        "role" => 'operator'
+      }]
+
+
+## Get an operator
+
+    GET /operators/:operator_id
+
+Lists all the operators that the manager can administer. The manager needs to have access to the site to be able to fetch an operator from there. The collection is paginated and ordered by ascending ID.
+
++ Response 200 (application/json)
+
+      [{
+        "href" => "https://api.salemove.com/operators/#{manager.id}",
+        "name" => 'Manager',
+        "email" => 'manager@email.com',
+        "phone" => '55443322',
+        "available" => true,
+        "role" => 'manager'
+      },
+      {
+        "href" => "https://api.salemove.com/operators/#{snd_operator.id}",
+        "name" => 'John',
+        "email" => 'test@email.com',
+        "phone" => '55443322',
+        "available" => true,
+        "role" => 'operator'
+      }]
+
+### Update an operator
+
+    PATCH /operators/:operator_id
+
++ Request body
+
+        {
+          "name": 'Merry John',
+          "email": 'some@new.email',
+          "phone": '999993333',
+          "available": false,
+        }
+
+
++ Response 200 (application/json)
+
+        {
+          "href" => "https://api.salemove.com/operators/#{snd_operator.id}",
+          "name" => 'Merry John',
+          "email" => 'some@new.email',
+          "phone" => '999993333',
+          "available" => false,
+          "role" => 'operator'
+        }
