@@ -1,2 +1,4 @@
 gems:
 - markdown
+
+safe: false
