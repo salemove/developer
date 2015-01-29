@@ -15,7 +15,7 @@ The API version must be explicitly set in the request ```Accept``` header.
 
     Accept: application/vnd.salemove.v1+json
 
-### Accept token
+### X-Salemove-Visit-Session-Id token
 The request also needs to include ```X-Salemove-Visit-Session-ID```. You can get it the following way:
 
     'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id
