@@ -1,36 +1,40 @@
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <link href="https://fonts.googleapis.com/css?family=Architects+Daughter" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-  <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Developer by salemove</title>
 
-  <!--[if lt IE 9]>
-  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Developer</h1>
+        <p></p>
 
-  <title>Salemove Public API by salemove</title>
-</head>
-
-<header>
-  <div class="inner">
-    <h1>Salemove Public API</h1>
-    <h2>Overview</h2>
-    <a href="https://github.com/salemove/developer" class="button"><small>View project on</small> GitHub</a>
-  </div>
-</header>
-<div id="content-wrapper">
-  <div class="inner clearfix">
-    <section id="main-content">
+        <p class="view"><a href="https://github.com/salemove/developer">View the Project on GitHub <small>salemove/developer</small></a></p>
 
 
+        <ul>
+          <li><a href="https://github.com/salemove/developer/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/salemove/developer/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/salemove/developer">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="salemove-public-api" class="anchor" href="#salemove-public-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Salemove public API.</h1>
 
-<h1 id="salemove-public-api">Salemove public API.</h1>
 <p>Welcome to SaleMove public API</p>
 
-<h1 id="api-types">API types</h1>
+<h1>
+<a id="api-types" class="anchor" href="#api-types" aria-hidden="true"><span class="octicon octicon-link"></span></a>API types</h1>
 
 <p>The Salemove has 2 types of API-s. The visitor side and the operator side API.</p>
 
@@ -38,14 +42,16 @@
 
 <p>The operator side API contains public REST endpoints that can be accessed by an operator with manager privileges. To use the REST endpoints, either the operator authentication or api token must be used for authentication. The api token can be received by contacting our support.</p>
 
-<h1 id="current-version">Current version</h1>
+<h1>
+<a id="current-version" class="anchor" href="#current-version" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current version</h1>
 
 <p>The current api version is <strong>v1</strong> and this must be explicitly set in the request <code>Accept</code> header.</p>
 
 <pre><code>Accept: application/vnd.salemove.v1+json
 </code></pre>
 
-<h1 id="schema">Schema</h1>
+<h1>
+<a id="schema" class="anchor" href="#schema" aria-hidden="true"><span class="octicon octicon-link"></span></a>Schema</h1>
 
 <p>All API access is over HTTPS and accessed from <code>api.salemove.com</code> domain. All data is sent and received as JSON</p>
 
@@ -77,11 +83,14 @@ X-Frame-Options: SAMEORIGIN
 <pre><code>YYYY-MM-DDTHH:MM:SSZ
 </code></pre>
 
-<h2 id="collections-or-list-of-resources">Collections or list of resources</h2>
+<h2>
+<a id="collections-or-list-of-resources" class="anchor" href="#collections-or-list-of-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Collections or list of resources</h2>
 
 <p>Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. FYou can also set a custom page size up to 100 with the ?per_page parameter.</p>
 
-<h3 id="example">Example</h3>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h3>
+
 <p>When you fetch all the operators that a manager can manage, then the first 30 operators are returned:</p>
 
 <pre><code>GET /operators
@@ -92,7 +101,8 @@ X-Frame-Options: SAMEORIGIN
 <pre><code>GET /operators?page=2
 </code></pre>
 
-<h1 id="client-errors">Client errors</h1>
+<h1>
+<a id="client-errors" class="anchor" href="#client-errors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Client errors</h1>
 
 <p>When a request throws an error, it also returns a JSON describing that error. Often the JSON contains both error and a debug message, which can help you diagnose problems better.</p>
 
@@ -104,63 +114,58 @@ X-Frame-Options: SAMEORIGIN
 }
 </code></pre>
 
-<h1 id="http-verbs">HTTP Verbs</h1>
+<h1>
+<a id="http-verbs" class="anchor" href="#http-verbs" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTTP Verbs</h1>
 
 <p>Where possible, API v3 strives to use appropriate HTTP verbs for each
 action.</p>
 
 <table>
-  <thead>
-    <tr>
-      <th>Verb</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>HEAD</code></td>
-      <td>Can be issued against any resource to get just the HTTP header info.</td>
-    </tr>
-    <tr>
-      <td><code>GET</code></td>
-      <td>Used for retrieving resources.</td>
-    </tr>
-    <tr>
-      <td><code>POST</code></td>
-      <td>Used for creating resources.</td>
-    </tr>
-    <tr>
-      <td><code>PATCH</code></td>
-      <td>Used for updating resources with partial JSON data.  For instance, an Issue resource has <code>title</code> and <code>body</code> attributes.  A PATCH request may accept one or more of the attributes to update the resource.  PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept <code>POST</code> requests.</td>
-    </tr>
-    <tr>
-      <td><code>PUT</code></td>
-      <td>Used for replacing resources or collections. For <code>PUT</code> requests with no <code>body</code> attribute, be sure to set the <code>Content-Length</code> header to zero.</td>
-    </tr>
-    <tr>
-      <td><code>DELETE</code></td>
-      <td>Used for deleting resources.</td>
-    </tr>
-  </tbody>
+<thead>
+<tr>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HEAD</code></td>
+<td>Can be issued against any resource to get just the HTTP header info.</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td>Used for retrieving resources.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td>Used for creating resources.</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td>Used for updating resources with partial JSON data.  For instance, an Issue resource has <code>title</code> and <code>body</code> attributes.  A PATCH request may accept one or more of the attributes to update the resource.  PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept <code>POST</code> requests.</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td>Used for replacing resources or collections. For <code>PUT</code> requests with no <code>body</code> attribute, be sure to set the <code>Content-Length</code> header to zero.</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>Used for deleting resources.</td>
+</tr>
+</tbody>
 </table>
 
-<h1 id="cross-origin-resource-sharing">Cross Origin Resource Sharing</h1>
+<h1>
+<a id="cross-origin-resource-sharing" class="anchor" href="#cross-origin-resource-sharing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cross Origin Resource Sharing</h1>
 
 <p>The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin. You can read the CORS W3C Recommendation, or this intro from the HTML 5 Security Guide.</p>
-
-
-</section>
-<aside id="sidebar">
-  <h2><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore=""></a><a href="/index.html">Overview</a></h2>
-  <ul class="js-guides">
-    <li><a href="/operator.html">Operator</a></li>
-    <li><a href="/visitor.html">Visitor</a></li>
-
-
-
-
-<footer>
-
-</footer>
-
-</ul></aside></div></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/salemove">salemove</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
