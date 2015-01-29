@@ -1,0 +1,207 @@
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Architects+Daughter" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <title>Salemove Public API by salemove</title>
+</head>
+
+<header>
+  <div class="inner">
+    <h1>Salemove Public API</h1>
+    <h2>Visitor API</h2>
+    <a href="https://github.com/salemove/developer" class="button"><small>View project on</small> GitHub</a>
+  </div>
+</header>
+<div id="content-wrapper">
+  <div class="inner clearfix">
+    <section id="main-content">
+
+
+
+<h1 id="operator-public-api">Operator public API.</h1>
+<p>The visitor public API consist of HTTP REST endpoints and javscript API. The API can only be used straight in the visitor browser on the site - it cannot be used by third party services outside the site.</p>
+
+<h2 id="headers">Headers</h2>
+<p>To use the REST API, the request needs to include at least 3 headers: <code>Authorization</code>, <code>Accept</code> and <code>X-Salemove-Visit-Session-ID</code></p>
+
+<h3 id="authorization">Authorization</h3>
+<p>To use the REST API, the request needs to include the visitors <code>SessionId</code>. To get the visitor session id on the site, you can use the following snipper of code:</p>
+
+<pre><code>'Authorization', 'SessionId ' + sm.persistentDataStore.get('session_id')
+</code></pre>
+
+<h3 id="accept-token">Accept token</h3>
+
+<p>The API version must be explicitly set in the request <code>Accept</code> header.</p>
+
+<pre><code>Accept: application/vnd.salemove.v1+json
+</code></pre>
+
+<h3 id="accept-token-1">Accept token</h3>
+<p>The request also needs to include <code>X-Salemove-Visit-Session-ID</code>. You can get it the following way:</p>
+
+<pre><code>'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id
+</code></pre>
+
+<h3 id="full-ajax-example">Full ajax example</h3>
+<p>Here is a full ajax request example with all the headers</p>
+
+<pre><code>$.ajax({
+  type: 'GET',
+  url: 'https://api.salemove.com/visitor',
+  headers: {
+    'Accept': 'application/vnd.salemove.v1+json',
+    'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id,
+    'Authorization', 'SessionId ' + sm.persistentDataStore.get('session_id')
+  },
+  success: function(response){
+      ajaxResponse = response;
+  }
+});
+</code></pre>
+
+<h1 id="rest-api">REST API</h1>
+
+<h2 id="get-current-visitor">Get current visitor</h2>
+
+<pre><code>GET /visitor
+</code></pre>
+
+<p>Fetches the information of current visitor on the site.</p>
+
+<ul>
+  <li>
+    <p>Response 200 (application/json)</p>
+
+    <pre><code>{
+  "href" =&gt; 'http://sm.dev:3004/visitor',
+  "name" =&gt; 'John',
+  "email" =&gt; 'test@email.com',
+  "phone" =&gt; '55443322',
+  "note" =&gt; 'some random dude',
+  "custom_attributes" =&gt; {
+    "home_address" =&gt; 'Winston',
+    "vip" =&gt; "true"
+  }
+}
+</code></pre>
+  </li>
+</ul>
+
+<h2 id="update-current-visitor">Update current visitor</h2>
+
+<pre><code>POST /visitor
+</code></pre>
+
+<p>Updates the information of the current visitor on the site.</p>
+
+<ul>
+  <li>
+    <p>Request body</p>
+
+    <pre><code>}
+  "name" =&gt; 'John',
+  "email" =&gt; 'test@email.com',
+  "phone" =&gt; '55443322',
+  "note" =&gt; 'some random dude',
+  "custom_attributes" =&gt; {
+    "home_address" =&gt; 'Winston',
+    "vip" =&gt; "true"
+  }
+}
+</code></pre>
+  </li>
+  <li>
+    <p>Response 200 (application/json)</p>
+
+    <pre><code>{
+  "href" =&gt; 'http://sm.dev:3004/visitor',
+  "name" =&gt; 'John',
+  "email" =&gt; 'test@email.com',
+  "phone" =&gt; '55443322',
+  "note" =&gt; 'some random dude',
+  "custom_attributes" =&gt; {
+    "home_address" =&gt; 'Winston',
+    "vip" =&gt; "true"
+  }
+}
+</code></pre>
+  </li>
+</ul>
+
+<h1 id="javascript-api">Javascript API</h1>
+
+<h2 id="fetching-the-api">Fetching the API</h2>
+<p>Fetching the API will return a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">promise</a>. Once all SaleMove scripts have been loaded on the site, the promise will resolve and return the javascript API.</p>
+
+<pre><code>sm.getApi().then(
+    function(api){
+      console.log("I got the api!", api);
+      window.salemoveApi = api;
+    },
+    function(err){ console.log("An error occured: ", err)}
+  );
+</code></pre>
+
+<h2 id="events">#EVENTS</h2>
+
+<pre><code>ENGAGEMENT_START
+ENGAGEMENT_END
+</code></pre>
+
+<p>All the available events that the SaleMove platform can fire are listed under the <code>EVENTS</code> variable.</p>
+
+<pre><code>salemoveApi.EVENTS.ENGAGEMENT_START
+</code></pre>
+
+<h2 id="addeventlistener">#addEventListener</h2>
+
+<pre><code>addEventListener(eventName, callback)
+</code></pre>
+
+<p>To add an event listener to the API, you can use the <code>addEventListener</code> method. The callback will be fired when SaleMove application fires the event</p>
+
+<pre><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  function(args){ console.log('the engagement ended!')}
+);
+</code></pre>
+
+<h2 id="removeeventlistener">#removeEventListener</h2>
+
+<pre><code>removeEventListener(eventName, callback)
+</code></pre>
+
+<p>You can remove callbacks from the salemove api object listeners, provided you give the same callback to the function that you did when you added the event.</p>
+
+<pre><code>salemoveApi.removeEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  my_function}
+);
+</code></pre>
+
+
+</section>
+<aside id="sidebar">
+  <h2><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore=""></a><a href="/developer/index.html">Overview</a></h2>
+  <ul class="js-guides">
+    <li><a href="/developer/operator.html">Operator</a></li>
+    <li><a href="/developer/visitor.html">Visitor</a></li>
+  
+  
+
+
+<footer>
+
+</footer>
+
+</ul></aside></div></div>
