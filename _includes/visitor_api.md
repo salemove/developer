@@ -1,4 +1,4 @@
-# Operator public API.
+# Visitor public API.
 The visitor public API consist of HTTP REST endpoints and javscript API. The API can only be used straight in the visitor browser on the site - it cannot be used by third party services outside the site.
 
 ## Headers
