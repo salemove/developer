@@ -3,9 +3,9 @@ title: Operator api
 ---
 
 {% include head.html %}
-{% include header.html param="Operator API"%}
+{% include header.html param="Visitor API"%}
 
-{% markdown operator_api.md %}
+{% markdown visitor_api.md %}
 
 {% include sidebar.html %}
 {% include footer.html %}
