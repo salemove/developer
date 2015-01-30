@@ -25,9 +25,9 @@
 <p>To use the REST API, the request needs to include at least 3 headers: <code>Authorization</code>, <code>Accept</code> and <code>X-Salemove-Visit-Session-ID</code></p>
 
 <h3 id="authorization">Authorization</h3>
-<p>To use the REST API, the request needs to include the visitors <code>SessionId</code>. To get the visitor session id on the site, you can use the following snipper of code:</p>
+<p>To use the REST API, the request needs to include the visitors <code>SessionId</code>. To get the visitor session id on the site, you can use the salemove javascript API to fetch the token.:</p>
 
-<pre><code>'Authorization', 'SessionId ' + sm.persistentDataStore.get('session_id')
+<pre><code>'Authorization', salemoveApi.getRequestHeaders()['Authorization']
 </code></pre>
 
 <h3 id="accept-token">Accept token</h3>
@@ -38,9 +38,9 @@
 </code></pre>
 
 <h3 id="x-salemove-visit-session-id-token">X-Salemove-Visit-Session-Id token</h3>
-<p>The request also needs to include <code>X-Salemove-Visit-Session-ID</code>. You can get it the following way:</p>
+<p>The request also needs to include <code>X-Salemove-Visit-Session-ID</code>.</p>
 
-<pre><code>'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id
+<pre><code>'X-Salemove-Visit-Session-Id', salemoveApi.getRequestHeaders()['X-Salemove-Visit-Session-Id']
 </code></pre>
 
 <h3 id="full-ajax-example">Full ajax example</h3>
@@ -49,11 +49,7 @@
 <pre><code>$.ajax({
   type: 'GET',
   url: 'https://api.salemove.com/visitor',
-  headers: {
-    'Accept': 'application/vnd.salemove.v1+json',
-    'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id,
-    'Authorization', 'SessionId ' + sm.persistentDataStore.get('session_id')
-  },
+  headers: salemoveApi.getRequestHeaders(),
   success: function(response){
       ajaxResponse = response;
   }
@@ -74,7 +70,7 @@
     <p>Response 200 (application/json)</p>
 
     <pre><code>{
-  "href" =&gt; 'http://sm.dev:3004/visitor',
+  "href" =&gt; 'http://api.salemove.com/visitor',
   "name" =&gt; 'John',
   "email" =&gt; 'test@email.com',
   "phone" =&gt; '55443322',
@@ -115,7 +111,7 @@
     <p>Response 200 (application/json)</p>
 
     <pre><code>{
-  "href" =&gt; 'http://sm.dev:3004/visitor',
+  "href" =&gt; 'http://api.salemove.com/visitor',
   "name" =&gt; 'John',
   "email" =&gt; 'test@email.com',
   "phone" =&gt; '55443322',
@@ -178,6 +174,23 @@ ENGAGEMENT_END
   salemoveApi.EVENTS.ENGAGEMENT_END,
   my_function}
 );
+</code></pre>
+
+<h2 id="getrequestheaders">#getRequestHeaders</h2>
+
+<pre><code>getRequestHeaders()
+</code></pre>
+
+<p>Returns a hash of the headers and values that are required for the visitor to authenticate with the API.</p>
+
+<pre><code>$.ajax({
+  type: 'GET',
+  url: 'https://api.salemove.com/visitor',
+  headers: salemoveApi.getRequestHeaders(),
+  success: function(response){
+      ajaxResponse = response;
+  }
+});
 </code></pre>
 
 

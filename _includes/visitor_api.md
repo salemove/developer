@@ -5,9 +5,9 @@ The visitor public API consist of HTTP REST endpoints and javscript API. The API
 To use the REST API, the request needs to include at least 3 headers: ```Authorization```, ```Accept``` and ```X-Salemove-Visit-Session-ID```
 
 ### Authorization
-To use the REST API, the request needs to include the visitors ```SessionId```. To get the visitor session id on the site, you can use the following snipper of code:
+To use the REST API, the request needs to include the visitors ```SessionId```. To get the visitor session id on the site, you can use the salemove javascript API to fetch the token.:
 
-    'Authorization', 'SessionId ' + sm.persistentDataStore.get('session_id')
+    'Authorization', salemoveApi.getRequestHeaders()['Authorization']
 
 ### Accept token
 
@@ -16,9 +16,9 @@ The API version must be explicitly set in the request ```Accept``` header.
     Accept: application/vnd.salemove.v1+json
 
 ### X-Salemove-Visit-Session-Id token
-The request also needs to include ```X-Salemove-Visit-Session-ID```. You can get it the following way:
+The request also needs to include ```X-Salemove-Visit-Session-ID```.
 
-    'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id
+    'X-Salemove-Visit-Session-Id', salemoveApi.getRequestHeaders()['X-Salemove-Visit-Session-Id']
 
 ### Full ajax example
 Here is a full ajax request example with all the headers
@@ -26,11 +26,7 @@ Here is a full ajax request example with all the headers
     $.ajax({
       type: 'GET',
       url: 'https://api.salemove.com/visitor',
-      headers: {
-        'Accept': 'application/vnd.salemove.v1+json',
-        'X-Salemove-Visit-Session-Id', sm.currentVisit?.visit_session_id,
-        'Authorization', 'SessionId ' + sm.persistentDataStore.get('session_id')
-      },
+      headers: salemoveApi.getRequestHeaders(),
       success: function(response){
           ajaxResponse = response;
       }
@@ -48,7 +44,7 @@ Fetches the information of current visitor on the site.
 + Response 200 (application/json)
 
       {
-        "href" => 'http://sm.dev:3004/visitor',
+        "href" => 'http://api.salemove.com/visitor',
         "name" => 'John',
         "email" => 'test@email.com',
         "phone" => '55443322',
@@ -82,7 +78,7 @@ Updates the information of the current visitor on the site.
 + Response 200 (application/json)
 
       {
-        "href" => 'http://sm.dev:3004/visitor',
+        "href" => 'http://api.salemove.com/visitor',
         "name" => 'John',
         "email" => 'test@email.com',
         "phone" => '55443322',
@@ -136,3 +132,18 @@ You can remove callbacks from the salemove api object listeners, provided you gi
       salemoveApi.EVENTS.ENGAGEMENT_END,
       my_function}
     );
+
+## #getRequestHeaders
+
+    getRequestHeaders()
+
+Returns a hash of the headers and values that are required for the visitor to authenticate with the API.
+
+    $.ajax({
+      type: 'GET',
+      url: 'https://api.salemove.com/visitor',
+      headers: salemoveApi.getRequestHeaders(),
+      success: function(response){
+          ajaxResponse = response;
+      }
+    });
