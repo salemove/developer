@@ -50,7 +50,7 @@ All timestamps are returned in ISO 8601 format:
 
 ## Collections or list of resources
 
-Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. FYou can also set a custom page size up to 100 with the ?per_page parameter.
+Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. You can also set a custom page size up to 100 with the ?per_page parameter.
 
 ### Example
 When you fetch all the operators that a manager can manage, then the first 30 operators are returned:
@@ -60,6 +60,29 @@ When you fetch all the operators that a manager can manage, then the first 30 op
 To get the second page of the operators, add a ```page=2``` to the request, e.g.:
 
     GET /operators?page=2
+
+### Next and last page links
+The response of the paginated collections always contains the ```last_page``` href and if available, the ```next_page``` href. It is important to follow these references, instead of constructing your own URLs.
+
+####Example
+An example of an arbitarty collection response:
+
+    {
+        'next_page' => 'http://api.salemove.com/collections?page=2',
+        'last_page' => 'http://api.salemove.com/collections?page=3',
+        'collection' => [
+          {
+            "href" => "http://api.salemove.com/collections/1',
+            "attribute" => 'value,
+            ...
+          },
+          {
+            "href" => "http://api.salemove.com/collections/2',
+            "attribute" => 'value',
+            ...
+          },
+        ]
+    }
 
 
 # Client errors

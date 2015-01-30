@@ -67,43 +67,48 @@
   <li>
     <p>Response 200 (application/json)</p>
 
-    <pre><code>[{
-  "href" =&gt; "https://api.salemove.com/engagements/#{first_engagement.id}",
-  "duration" =&gt; 30,
-  "operators" =&gt; [
+    <pre><code>{
+  'last_page' =&gt; 'http://api.salemove.com/engagements?page=1',
+  'engagements' =&gt; [
     {
-      "href" =&gt; "https://api.salemove.com/operators/#{first_operator.id}"
-    }
-  ],
-  "visitor" =&gt; {
-    "href" =&gt; "https://api.salemove.com/visitors/#{visitor.id}"
-  },
-  "chat_transcript" =&gt;
-  {
-    "href" =&gt; "https://api.salemove.com/engagements/#{first_engagement.id}/chat_trascript"
-  },
-  "audio_recording" =&gt;
-  {
-    "href" =&gt; "https://api.salemove.com/recording/url"
-  }
-},
-{
-  "href" =&gt; "https://api.salemove.com/engagements/#{second_engagement.id}",
-  "duration" =&gt; 30,
-  "operators" =&gt; [
+      "href" =&gt; "http://api.salemove.com/engagements/1",
+      "duration" =&gt; 30,
+      "operators" =&gt; [
+        {
+          "href" =&gt; "http://api.salemove.com/operators/4"
+        }
+      ],
+      "visitor" =&gt; {
+        "href" =&gt; "http://api.salemove.com/visitors/1"
+      },
+      "chat_transcript" =&gt;
+      {
+        "href" =&gt; "http://api.salemove.com/engagements/1/chat_trascript"
+      },
+      "audio_recording" =&gt;
+      {
+        "href" =&gt; "http://api.salemove.com/recording/url"
+      }
+    },
     {
-      "href" =&gt; "https://api.salemove.com/operators/#{second_operator.id}"
+      "href" =&gt; "http://api.salemove.com/engagements/2",
+      "duration" =&gt; 30,
+      "operators" =&gt; [
+        {
+          "href" =&gt; "http://api.salemove.com/operators/5"
+        }
+      ],
+      "visitor" =&gt; {
+        "href" =&gt; "http://api.salemove.com/visitors/6"
+      },
+      "chat_transcript" =&gt;
+      {
+        "href" =&gt; "http://api.salemove.com/engagements/2/chat_trascript"
+      },
+      "audio_recording" =&gt; { "href" =&gt; nil }
     }
-  ],
-  "visitor" =&gt; {
-    "href" =&gt; "https://api.salemove.com/visitors/#{second_visitor.id}"
-  },
-  "chat_transcript" =&gt;
-  {
-    "href" =&gt; "https://api.salemove.com/engagements/#{second_engagement.id}/chat_trascript"
-  },
-  "audio_recording" =&gt; { "href" =&gt; nil }
-}]
+  ]
+}
 </code></pre>
   </li>
 </ul>
@@ -120,19 +125,19 @@
     <p>Response 200 (application/json)</p>
 
     <pre><code>{
-  "href" =&gt; "https://api.salemove.com/engagements/#{first_engagement.id}",
+  "href" =&gt; "https://api.salemove.com/engagements/2",
   "duration" =&gt; 30,
   "operators" =&gt; [
     {
-      "href" =&gt; "https://api.salemove.com/operators/#{first_operator.id}"
+      "href" =&gt; "https://api.salemove.com/operators/4"
     }
   ],
   "visitor" =&gt; {
-    "href" =&gt; "https://api.salemove.com/visitors/#{visitor.id}"
+    "href" =&gt; "https://api.salemove.com/visitors/1"
   },
   "chat_transcript" =&gt;
   {
-    "href" =&gt; "https://api.salemove.com/engagements/#{first_engagement.id}/chat_trascript"
+    "href" =&gt; "https://api.salemove.com/engagements/2/chat_trascript"
   },
   "audio_recording" =&gt;
   {
@@ -159,7 +164,7 @@
     "message" =&gt; "This",
     "created_at" =&gt; message1.created_at,
     "sender" =&gt; {
-      "href" =&gt; "https://api.salemove.com:visitors/#{visitor.id}",
+      "href" =&gt; "https://api.salemove.com:visitors/1",
       "name" =&gt; nil,
       "type" =&gt; "visitor"
     }
@@ -168,7 +173,7 @@
     "message" =&gt; "is",
     "created_at" =&gt; message2.created_at,
     "sender" =&gt; {
-      "href" =&gt; "https://api.salemove.com:operators/#{first_operator.id}",
+      "href" =&gt; "https://api.salemove.com:operators/4",
       "name" =&gt; "Kalle Kaalikas",
       "type" =&gt; "operator"
     }
@@ -177,7 +182,7 @@
     "message" =&gt; "chat",
     "created_at" =&gt; message3.created_at,
     "sender" =&gt; {
-      "href" =&gt; "https://api.salemove.com:operators/#{first_operator.id}",
+      "href" =&gt; "https://api.salemove.com:operators/5",
       "name" =&gt; 'Kalle Kaalikas',
       "type" =&gt; 'operator'
     }
@@ -199,7 +204,7 @@
     <p>Response 200 (application/json)</p>
 
     <pre><code>{
-  "href" =&gt; "https://api.salemove.com/visitors/#{visitor.id}",
+  "href" =&gt; "https://api.salemove.com/visitors/1",
   "name" =&gt; 'John',
   "email" =&gt; 'test@email.com',
   "phone" =&gt; '55443322',
@@ -224,14 +229,27 @@
   <li>
     <p>Response 200 (application/json)</p>
 
-    <pre><code>[{
-  "href" =&gt; "https://api.salemove.com/operators/#{snd_operator.id}",
-  "name" =&gt; 'John',
-  "email" =&gt; 'test@email.com',
-  "phone" =&gt; '55443322',
-  "available" =&gt; true,
-  "role" =&gt; 'operator'
-}]
+    <pre><code>{
+  'last_page' =&gt; 'http://api.salemove.com/operators?page=1',
+  'operators' =&gt; [
+    {
+      "href" =&gt; "http://api.salemove.com/operators/4",
+      "name" =&gt; 'Manager',
+      "email" =&gt; 'manager@email.com',
+      "phone" =&gt; '55443322',
+      "available" =&gt; true,
+      "role" =&gt; 'manager'
+    },
+    {
+      "href" =&gt; "http://api.salemove.com/operators/5",
+      "name" =&gt; 'John',
+      "email" =&gt; 'test@email.com',
+      "phone" =&gt; '55443322',
+      "available" =&gt; true,
+      "role" =&gt; 'operator'
+    }
+  ]
+}
 </code></pre>
   </li>
 </ul>
@@ -247,22 +265,14 @@
   <li>
     <p>Response 200 (application/json)</p>
 
-    <pre><code>[{
-  "href" =&gt; "https://api.salemove.com/operators/#{manager.id}",
+    <pre><code>{
+  "href" =&gt; "https://api.salemove.com/operators/4",
   "name" =&gt; 'Manager',
   "email" =&gt; 'manager@email.com',
   "phone" =&gt; '55443322',
   "available" =&gt; true,
   "role" =&gt; 'manager'
-},
-{
-  "href" =&gt; "https://api.salemove.com/operators/#{snd_operator.id}",
-  "name" =&gt; 'John',
-  "email" =&gt; 'test@email.com',
-  "phone" =&gt; '55443322',
-  "available" =&gt; true,
-  "role" =&gt; 'operator'
-}]
+}
 </code></pre>
   </li>
 </ul>
@@ -288,7 +298,7 @@
     <p>Response 200 (application/json)</p>
 
     <pre><code>  {
-    "href" =&gt; "https://api.salemove.com/operators/#{snd_operator.id}",
+    "href" =&gt; "https://api.salemove.com/operators/5",
     "name" =&gt; 'Merry John',
     "email" =&gt; 'some@new.email',
     "phone" =&gt; '999993333',

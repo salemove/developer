@@ -70,7 +70,7 @@ X-Frame-Options: SAMEORIGIN
 
 <h2 id="collections-or-list-of-resources">Collections or list of resources</h2>
 
-<p>Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. FYou can also set a custom page size up to 100 with the ?per_page parameter.</p>
+<p>Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. You can also set a custom page size up to 100 with the ?per_page parameter.</p>
 
 <h3 id="example">Example</h3>
 <p>When you fetch all the operators that a manager can manage, then the first 30 operators are returned:</p>
@@ -81,6 +81,30 @@ X-Frame-Options: SAMEORIGIN
 <p>To get the second page of the operators, add a <code>page=2</code> to the request, e.g.:</p>
 
 <pre><code>GET /operators?page=2
+</code></pre>
+
+<h3 id="next-and-last-page-links">Next and last page links</h3>
+<p>The response of the paginated collections always contains the <code>last_page</code> href and if available, the <code>next_page</code> href. It is important to follow these references, instead of constructing your own URLs.</p>
+
+<h4 id="example-1">Example</h4>
+<p>An example of an arbitarty collection response:</p>
+
+<pre><code>{
+    'next_page' =&gt; 'http://api.salemove.com/collections?page=2',
+    'last_page' =&gt; 'http://api.salemove.com/collections?page=3',
+    'collection' =&gt; [
+      {
+        "href" =&gt; "http://api.salemove.com/collections/1',
+        "attribute" =&gt; 'value,
+        ...
+      },
+      {
+        "href" =&gt; "http://api.salemove.com/collections/2',
+        "attribute" =&gt; 'value',
+        ...
+      },
+    ]
+}
 </code></pre>
 
 <h1 id="client-errors">Client errors</h1>
