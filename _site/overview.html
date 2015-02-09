@@ -23,15 +23,15 @@
 
 <h1 id="api-types">API types</h1>
 
-<p>The Salemove has 2 types of API-s. The visitor side and the operator side API.</p>
+<p>Salemove provides of APIs to be used in both the visitor's and the operator's browsers.</p>
 
-<p>The visitor side API can be accessed directly through the visitor browser. The API contains both public REST endpoints and javascript API. The REST endpoints require visitor session id for authentication.</p>
+<p>The visitor side API endpoints can be accessed directly through the visitor browser. The API includes both public REST endpoints and javascript API. The REST endpoints require the visitor session id to be sent along with the requests for authentication purposes.</p>
 
-<p>The operator side API contains public REST endpoints that can be accessed by an operator with manager privileges. To use the REST endpoints, either the operator authentication or api token must be used for authentication. The api token can be received by contacting our support.</p>
+<p>The operator side API includes a set of public REST endpoints that can be accessed by an operator who has been granted with manager privileges. In order to use the REST endpoints, the requests should include either the operator session token or the api token for authentication purposes. The API token can be received by contacting our support.</p>
 
 <h1 id="current-version">Current version</h1>
 
-<p>The current api version is <strong>v1</strong> and this must be explicitly set in the request <code>Accept</code> header.</p>
+<p>The current api version is <strong>v1</strong> and this must be explicitly set while sending a request <code>Accept</code> header.</p>
 
 <pre><code>Accept: application/vnd.salemove.v1+json
 </code></pre>
@@ -63,28 +63,28 @@ X-Frame-Options: SAMEORIGIN
 
 <p>Blank fields are included as null instead of being omitted.</p>
 
-<p>All timestamps are returned in ISO 8601 format:</p>
+<p>All timestamps are formatted to ISO-8601</p>
 
 <pre><code>YYYY-MM-DDTHH:MM:SSZ
 </code></pre>
 
 <h2 id="collections-or-list-of-resources">Collections or list of resources</h2>
 
-<p>Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. You can also set a custom page size up to 100 with the ?per_page parameter.</p>
+<p>Requests that return multiple items are paginated to 30 items by default. You can specify further pages by setting the ?page parameter. In addition, It is possible to set a custom page size up to 100 with the ?per_page parameter.</p>
 
 <h3 id="example">Example</h3>
-<p>When you fetch all the operators that a manager can manage, then the first 30 operators are returned:</p>
+<p>When you fetch all the operators then the response includes the first 30 operators:</p>
 
 <pre><code>GET /operators
 </code></pre>
 
-<p>To get the second page of the operators, add a <code>page=2</code> to the request, e.g.:</p>
+<p>In order to get the second page of the operators set the parameter <code>page</code> to <code>page=2</code>, e.g.:</p>
 
 <pre><code>GET /operators?page=2
 </code></pre>
 
 <h3 id="next-and-last-page-links">Next and last page links</h3>
-<p>The response of the paginated collections always contains the <code>last_page</code> href and if available, the <code>next_page</code> href. It is important to follow these references, instead of constructing your own URLs.</p>
+<p>The response of the paginated collections always contains the <code>last_page</code> href and, if available, the <code>next_page</code> href. It is strongly recommended to follow these references, instead of constructing your own URLs.</p>
 
 <h4 id="example-1">Example</h4>
 <p>An example of an arbitarty collection response:</p>
@@ -109,7 +109,7 @@ X-Frame-Options: SAMEORIGIN
 
 <h1 id="client-errors">Client errors</h1>
 
-<p>When a request throws an error, it also returns a JSON describing that error. Often the JSON contains both error and a debug message, which can help you diagnose problems better.</p>
+<p>When a request throws an error, it returns a JSON describing the error. In addition, in most of the cases the response includes both the error and a debug message. This information can be further used to troubleshoot problems better.</p>
 
 <pre><code>HTTP/1.1 400 400
 {
