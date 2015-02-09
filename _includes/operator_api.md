@@ -1,14 +1,14 @@
 # Operator public API.
-The operator public API consist of HTTP REST endpoints. This means it can be used through browser, command line, by another server, etc.
+The operator's public API comprises a set of HTTP REST endpoints that can be used from the browser, command line, a server application, or other devices.
 
 ## Headers
-To use the REST API, the request needs to include at least 2 headers: ```Authorization``` and ```Accept```
+In order to use the REST API, every request needs to include at least 2 headers: the  ```Authorization``` and the ```Accept```.
 
 ### Authorization
-To use the REST API, the request needs to include either the operator ```SessionId``` or ```ApiToken```. The preferred approach is using API token, which you can request from our support. The API token is given per operator and currently only operators with manager status have privileges to use them.
+Every request needs to include either the operator ```SessionId``` or ```ApiToken```. It is recommended to use the API token which you can request to our support team. The API token is assigned per operator and currently only operators with manager privileges have the token enabled.
 
 #### API token example
-To use an API token, request the API token from our support and attach it to the request headers. An example with curl:
+The following is an example of a curl request which inclues the API token:
 
 
     curl -i https://api.salemove.com/engagements --header "Authorization: ApiToken MY_SECRET_API_TOKEN"
@@ -31,7 +31,7 @@ Example with javascript:
 
 ### Accept token
 
-The API version must be explicitly set in the request ```Accept``` header.
+The API version must be explicitly set in every request via the ```Accept``` header.
 
     Accept: application/vnd.salemove.v1+json
 
@@ -41,7 +41,7 @@ The API version must be explicitly set in the request ```Accept``` header.
 
     GET /enagements
 
-Fetches a collection of all engagements that the current manager can see. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and ordered by ascending ID.
+Fetches a collection of all engagements that the current manager has access to configure. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and sorted by ID (ascending).
 
 + Response 200 (application/json)
 
@@ -93,7 +93,7 @@ Fetches a collection of all engagements that the current manager can see. The ma
 
     GET /enagement/:engagement_id
 
-Fetches an engagement. The manager needs to have access to the site that the engagement took place on.
+Fetches an engagement. The manager needs to have access to the site that the engagement belongs to.
 
 + Response 200 (application/json)
 
@@ -122,7 +122,7 @@ Fetches an engagement. The manager needs to have access to the site that the eng
 
     GET /enagement/:engagement_id/chat_transcript
 
-Fetches the engagements chat transcript. The manager needs to be able to have access site that the chat took place on.
+Fetches the engagements chat transcript. The manager needs to have access to the site that the engagement belongs to.
 
 + Response 200 (application/json)
 
@@ -180,7 +180,7 @@ Fetches the engagements chat transcript. The manager needs to be able to have ac
 
     GET /operators
 
-Fetches an operator that the manager can administer. The manager needs to have access to the site to be able to fetch an operator from there.
+Fetches an operator that the manager can manage and configure. The manager needs to have access to the site in order to fetch the site's operators.
 
 + Response 200 (application/json)
 
@@ -211,7 +211,7 @@ Fetches an operator that the manager can administer. The manager needs to have a
 
     GET /operators/:operator_id
 
-Lists all the operators that the manager can administer. The manager needs to have access to the site to be able to fetch an operator from there. The collection is paginated and ordered by ascending ID.
+Lists all the operators that the manager can manage and configure. The manager needs to have access to the site in order to fetch the site's operators. The collection is paginated and sorted by ascending ID.
 
 + Response 200 (application/json)
 

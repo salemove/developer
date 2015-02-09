@@ -19,16 +19,16 @@
 
 
 <h1 id="operator-public-api">Operator public API.</h1>
-<p>The operator public API consist of HTTP REST endpoints. This means it can be used through browser, command line, by another server, etc.</p>
+<p>The operator’s public API comprises a set of HTTP REST endpoints that can be used from the browser, command line, a server application, or other devices.</p>
 
 <h2 id="headers">Headers</h2>
-<p>To use the REST API, the request needs to include at least 2 headers: <code>Authorization</code> and <code>Accept</code></p>
+<p>In order to use the REST API, every request needs to include at least 2 headers: the  <code>Authorization</code> and the <code>Accept</code>.</p>
 
 <h3 id="authorization">Authorization</h3>
-<p>To use the REST API, the request needs to include either the operator <code>SessionId</code> or <code>ApiToken</code>. The preferred approach is using API token, which you can request from our support. The API token is given per operator and currently only operators with manager status have privileges to use them.</p>
+<p>Every request needs to include either the operator <code>SessionId</code> or <code>ApiToken</code>. It is recommended to use the API token which you can request to our support team. The API token is assigned per operator and currently only operators with manager privileges have the token enabled.</p>
 
 <h4 id="api-token-example">API token example</h4>
-<p>To use an API token, request the API token from our support and attach it to the request headers. An example with curl:</p>
+<p>The following is an example of a curl request which inclues the API token:</p>
 
 <pre><code>curl -i https://api.salemove.com/engagements --header "Authorization: ApiToken MY_SECRET_API_TOKEN"
 </code></pre>
@@ -49,7 +49,7 @@
 
 <h3 id="accept-token">Accept token</h3>
 
-<p>The API version must be explicitly set in the request <code>Accept</code> header.</p>
+<p>The API version must be explicitly set in every request via the <code>Accept</code> header.</p>
 
 <pre><code>Accept: application/vnd.salemove.v1+json
 </code></pre>
@@ -61,7 +61,7 @@
 <pre><code>GET /enagements
 </code></pre>
 
-<p>Fetches a collection of all engagements that the current manager can see. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and ordered by ascending ID.</p>
+<p>Fetches a collection of all engagements that the current manager has access to configure. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and sorted by ID (ascending).</p>
 
 <ul>
   <li>
@@ -118,7 +118,7 @@
 <pre><code>GET /enagement/:engagement_id
 </code></pre>
 
-<p>Fetches an engagement. The manager needs to have access to the site that the engagement took place on.</p>
+<p>Fetches an engagement. The manager needs to have access to the site that the engagement belongs to.</p>
 
 <ul>
   <li>
@@ -153,7 +153,7 @@
 <pre><code>GET /enagement/:engagement_id/chat_transcript
 </code></pre>
 
-<p>Fetches the engagements chat transcript. The manager needs to be able to have access site that the chat took place on.</p>
+<p>Fetches the engagements chat transcript. The manager needs to have access to the site that the engagement belongs to.</p>
 
 <ul>
   <li>
@@ -223,7 +223,7 @@
 <pre><code>GET /operators
 </code></pre>
 
-<p>Fetches an operator that the manager can administer. The manager needs to have access to the site to be able to fetch an operator from there.</p>
+<p>Fetches an operator that the manager can manage and configure. The manager needs to have access to the site in order to fetch the site’s operators.</p>
 
 <ul>
   <li>
@@ -259,7 +259,7 @@
 <pre><code>GET /operators/:operator_id
 </code></pre>
 
-<p>Lists all the operators that the manager can administer. The manager needs to have access to the site to be able to fetch an operator from there. The collection is paginated and ordered by ascending ID.</p>
+<p>Lists all the operators that the manager can manage and configure. The manager needs to have access to the site in order to fetch the site’s operators. The collection is paginated and sorted by ascending ID.</p>
 
 <ul>
   <li>

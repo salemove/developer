@@ -3,15 +3,17 @@ Welcome to SaleMove public API
 
 # API types
 
-The Salemove has 2 types of API-s. The visitor side and the operator side API.
+Salemove provides of APIs to be used in both the visitor's and the operator's browsers.
 
-The visitor side API can be accessed directly through the visitor browser. The API contains both public REST endpoints and javascript API. The REST endpoints require visitor session id for authentication.
+The visitor side API endpoints can be accessed directly through the visitor browser. The API includes both public REST endpoints and javascript API. The REST endpoints require the visitor session id to be sent along with the requests for authentication purposes.
 
-The operator side API contains public REST endpoints that can be accessed by an operator with manager privileges. To use the REST endpoints, either the operator authentication or api token must be used for authentication. The api token can be received by contacting our support.
+he operator side API includes a set of public REST endpoints that can be accessed by an operator who has been granted with manager privileges. In order to use the REST endpoints, the requests should include either the operator session token or the api token for authentication purposes. The API token can be received by contacting our support.
+
 
 # Current version
 
-The current api version is **v1** and this must be explicitly set in the request ```Accept``` header.
+The current api version is **v1**  and this must be explicitly set while sending a request ```Accept```  header.
+
 
     Accept: application/vnd.salemove.v1+json
 
@@ -43,26 +45,27 @@ All API access is over HTTPS and accessed from ```api.salemove.com``` domain. Al
 
 Blank fields are included as null instead of being omitted.
 
-All timestamps are returned in ISO 8601 format:
+All timestamps are formatted to ISO-8601
 
     YYYY-MM-DDTHH:MM:SSZ
 
 
 ## Collections or list of resources
 
-Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. You can also set a custom page size up to 100 with the ?per_page parameter.
+Requests that return multiple items are paginated to 30 items by default. You can specify further pages by setting the ?page parameter. In addition, It is possible to set a custom page size up to 100 with the ?per_page parameter.
+
 
 ### Example
-When you fetch all the operators that a manager can manage, then the first 30 operators are returned:
+When you fetch all the operators then the response includes the first 30 operators:
 
     GET /operators
 
-To get the second page of the operators, add a ```page=2``` to the request, e.g.:
+In order to get the second page of the operators set the parameter ```page``` to ```page=2```, e.g.:
 
     GET /operators?page=2
 
 ### Next and last page links
-The response of the paginated collections always contains the ```last_page``` href and if available, the ```next_page``` href. It is important to follow these references, instead of constructing your own URLs.
+The response of the paginated collections always contains the ```last_page``` href and, if available, the ```next_page<``` href. It is strongly recommended to follow these references, instead of constructing your own URLs.
 
 ####Example
 An example of an arbitarty collection response:
@@ -87,7 +90,7 @@ An example of an arbitarty collection response:
 
 # Client errors
 
-When a request throws an error, it also returns a JSON describing that error. Often the JSON contains both error and a debug message, which can help you diagnose problems better.
+When a request throws an error, it returns a JSON describing the error. In addition, in most of the cases the response includes both the error and a debug message. This information can be further used to troubleshoot problems better.
 
 
     HTTP/1.1 400 400

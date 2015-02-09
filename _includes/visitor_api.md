@@ -1,11 +1,11 @@
 # Visitor public API.
-The visitor public API consist of HTTP REST endpoints and javscript API. The API can only be used straight in the visitor browser on the site - it cannot be used by third party services outside the site.
+The visitor public API includes a set of HTTP REST endpoints and javscript API. The API can only be used from the visitor browser on the site - it cannot be used by third party services outside the site.
 
 ## Headers
-To use the REST API, the request needs to include at least 3 headers: ```Authorization```, ```Accept``` and ```X-Salemove-Visit-Session-ID```
+In order to use the REST API, the request needs to include at least 3 headers: ```Authorization<```, ```Accept``` and ```X-Salemove-Visit-Session-ID```.
 
 ### Authorization
-To use the REST API, the request needs to include the visitors ```SessionId```. To get the visitor session id on the site, you can use the salemove javascript API to fetch the token.:
+The request has to include the visitor's ```SessionId```. The visitor session id on the site can be retrieved by using the salemove javascript API:
 
     'Authorization', salemoveApi.getRequestHeaders()['Authorization']
 
@@ -21,7 +21,7 @@ The request also needs to include ```X-Salemove-Visit-Session-ID```.
     'X-Salemove-Visit-Session-Id', salemoveApi.getRequestHeaders()['X-Salemove-Visit-Session-Id']
 
 ### Full ajax example
-Here is a full ajax request example with all the headers
+The following is an example of a ajax request including all necessary headers.
 
     $.ajax({
       type: 'GET',
@@ -126,7 +126,7 @@ To add an event listener to the API, you can use the ```addEventListener``` meth
 
     removeEventListener(eventName, callback)
 
-You can remove callbacks from the salemove api object listeners, provided you give the same callback to the function that you did when you added the event.
+It is possible to remove callbacks that have been previously registered.
 
     salemoveApi.removeEventListener(
       salemoveApi.EVENTS.ENGAGEMENT_END,
