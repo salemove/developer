@@ -89,7 +89,7 @@
 <pre><code>POST /visitor
 </code></pre>
 
-<p>Updates the information of the current visitor on the site.</p>
+<p>Updates the information of the current visitor on the site. You can send custom attributes attributes as key-value pairs to the visitor. The server treats all keys and values as strings and also returns them as strings. You cannot use nested key-value pairs.</p>
 
 <ul>
   <li>
@@ -102,7 +102,8 @@
   "note" =&gt; 'some random dude',
   "custom_attributes" =&gt; {
     "home_address" =&gt; 'Winston',
-    "vip" =&gt; "true"
+    "vip" =&gt; 'true',
+    "last_visited" =&gt; '2014-02-18T12:24:34.420Z'
   }
 }
 </code></pre>
@@ -118,7 +119,8 @@
   "note" =&gt; 'some random dude',
   "custom_attributes" =&gt; {
     "home_address" =&gt; 'Winston',
-    "vip" =&gt; "true"
+    "vip" =&gt; 'true',
+    "last_visited" =&gt; '2014-02-18T12:24:34.420Z'
   }
 }
 </code></pre>

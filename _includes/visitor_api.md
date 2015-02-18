@@ -60,7 +60,7 @@ Fetches the information of current visitor on the site.
 
     POST /visitor
 
-Updates the information of the current visitor on the site.
+Updates the information of the current visitor on the site. You can send custom attributes attributes as key-value pairs to the visitor. The server treats all keys and values as strings and also returns them as strings. You cannot use nested key-value pairs.
 
 + Request body
 
@@ -71,7 +71,8 @@ Updates the information of the current visitor on the site.
         "note" => 'some random dude',
         "custom_attributes" => {
           "home_address" => 'Winston',
-          "vip" => "true"
+          "vip" => 'true',
+          "last_visited" => '2014-02-18T12:24:34.420Z'
         }
       }
 
@@ -85,7 +86,8 @@ Updates the information of the current visitor on the site.
         "note" => 'some random dude',
         "custom_attributes" => {
           "home_address" => 'Winston',
-          "vip" => "true"
+          "vip" => 'true',
+          "last_visited" => '2014-02-18T12:24:34.420Z'
         }
       }
 
