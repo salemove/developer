@@ -62,10 +62,6 @@ Fetches a collection of all engagements that the current manager has access to c
             "chat_transcript" =>
             {
               "href" => "http://api.salemove.com/engagements/1/chat_trascript"
-            },
-            "audio_recording" =>
-            {
-              "href" => "http://api.salemove.com/recording/url"
             }
           },
           {
@@ -82,8 +78,7 @@ Fetches a collection of all engagements that the current manager has access to c
             "chat_transcript" =>
             {
               "href" => "http://api.salemove.com/engagements/2/chat_trascript"
-            },
-            "audio_recording" => { "href" => nil }
+            }
           }
         ]
       }
@@ -111,10 +106,6 @@ Fetches an engagement. The manager needs to have access to the site that the eng
         "chat_transcript" =>
         {
           "href" => "https://api.salemove.com/engagements/2/chat_trascript"
-        },
-        "audio_recording" =>
-        {
-          "href" => "https://api.salemove.com/recording/url"
         }
       }
 
