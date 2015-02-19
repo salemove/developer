@@ -5,7 +5,7 @@ The visitor public API consist of HTTP REST endpoints, javscript, HTML, CSS API 
 In order to use the REST API, the request needs to include at least 3 headers: ```Authorization<```, ```Accept``` and ```X-Salemove-Visit-Session-ID```.
 
 ### Authorization
-The request has to include the visitor's ```SessionId```. The visitor session id on the site can be retrieved by using the salemove javascript API:
+The request has to include the visitor's ```SessionId```. The visitor session id on the site can be retrieved by using the SaleMove javascript API:
 
     'Authorization', salemoveApi.getRequestHeaders()['Authorization']
 
