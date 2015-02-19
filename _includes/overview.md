@@ -3,7 +3,7 @@ Welcome to SaleMove public API
 
 # API types
 
-Salemove provides of APIs to be used in both the visitor's and the operator's browsers.
+SaleMove provides of APIs to be used in both the visitor's and the operator's browsers.
 
 The visitor side API endpoints can be accessed directly through the visitor browser. The API includes both public REST endpoints and javascript API. The REST endpoints require the visitor session id to be sent along with the requests for authentication purposes.
 
