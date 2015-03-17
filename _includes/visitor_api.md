@@ -235,4 +235,33 @@ To expand the reactive tab for X seconds then the linked page opens, you can put
 
     <a href='http://www.site.com#sm_show_reactive_tab_20_seconds'>...</a>
 
+## Show notification and save visitor contact information when he first comes to the page
+
+    Url-hash: #sm_show_notification
+    Notification message: #sm_show_notification?message=some+message
+
+    Contact information saving:
+    #sm_show_notification?name=visitor+name&phone=56567775&email=visitor@email.com&notes=visitor+notes&custom_attributes[attribute1]=attribute1+value&custom_attributes[attribute2]=attribute2+value
+
+    Both notification and contact information saving:
+    #sm_show_notification?message=some+message&name=visitor+name&phone=56567775&email=visitor@email.com&notes=visitor+notes&custom_attributes[attribute1]=attribute1+value&custom_attributes[attribute2]=attribute2+value
+
+To immediately show a notification to the operators or save visitors contact information when the visitor comes to the site you can put the hash at the end of the url. This can be used, for example, for high-profile clients who should be contacted immediately after they come to the page and some information about them is can already be prefilled.
+
+The hash itself does not do anything, it needs some or all query parameters for effect. The query parameters should be put after the url-hash, separated with **'?'** sign from the url-hash.
+
+When you want to **use spaces** in parameter values, you **need to replace spaces with '+' or '%20' signs**. The '+' or '%20' signs will be replaced by spaces automatically.
+
+When using multiple parameters, separate them with **'&'** sign.
+
+The explanation of parameters is as follows:
+
+    ?message=some+message+to+show+to+the+operator # This message is shown to the operator
+    ?name=Visitor+Name # This name will be saved as the visitor name
+    ?email=visitor@email.com # This email will be saved as the visitor email
+    ?phone=56565677 # This phone will be saved as the visitors phone
+    ?notes=Some+notes+about+the+visitor # This message will be saved as the visitor notes
+
+    # You can save custom information about the visitor as specified in the 'Update current visitor' section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with '&' sign as other parameters.
+    ?custom_attributes[attribute1]=attribute1+value&custom_attributes[attribute2]=attribute2+value
 
