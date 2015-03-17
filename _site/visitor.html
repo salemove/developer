@@ -293,6 +293,38 @@ The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
 &lt;a href='http://www.site.com#sm_show_reactive_tab_20_seconds'&gt;...&lt;/a&gt;
 </code></pre>
 
+<h2 id="show-notification-and-save-visitor-contact-information-when-he-first-comes-to-the-page">Show notification and save visitor contact information when he first comes to the page</h2>
+
+<pre><code>Url-hash: #sm_show_notification
+Notification message: #sm_show_notification?message=some+message
+
+Contact information saving:
+#sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;notes=visitor+notes&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
+
+Both notification and contact information saving:
+#sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;notes=visitor+notes&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
+</code></pre>
+
+<p>To immediately show a notification to the operators or save visitors contact information when the visitor comes to the site you can put the hash at the end of the url. This can be used, for example, for high-profile clients who should be contacted immediately after they come to the page and some information about them is can already be prefilled.</p>
+
+<p>The hash itself does not do anything, it needs some or all query parameters for effect. The query parameters should be put after the url-hash, separated with <strong>’?’</strong> sign from the url-hash.</p>
+
+<p>When you want to <strong>use spaces</strong> in parameter values, you <strong>need to replace spaces with ‘+’ or ‘%20’ signs</strong>. The ‘+’ or ‘%20’ signs will be replaced by spaces automatically.</p>
+
+<p>When using multiple parameters, separate them with <strong>‘&amp;’</strong> sign.</p>
+
+<p>The explanation of parameters is as follows:</p>
+
+<pre><code>?message=some+message+to+show+to+the+operator # This message is shown to the operator
+?name=Visitor+Name # This name will be saved as the visitor name
+?email=visitor@email.com # This email will be saved as the visitor email
+?phone=56565677 # This phone will be saved as the visitors phone
+?notes=Some+notes+about+the+visitor # This message will be saved as the visitor notes
+
+# You can save custom information about the visitor as specified in the 'Update current visitor' section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with '&amp;' sign as other parameters.
+?custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
+</code></pre>
+
 
 
 </section>
