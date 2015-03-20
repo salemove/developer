@@ -1,7 +1,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-  <title>Developer by SaleMove</title>
+  <title>Powered by SaleMove</title>
 
   <link rel="stylesheet" href="stylesheets/styles.css" />
   <link rel="stylesheet" href="stylesheets/pygment_trac.css" />
@@ -70,14 +70,16 @@
     <p>Response 200 (application/json)</p>
 
     <pre><code>{
-  "href" =&gt; 'http://api.salemove.com/visitor',
-  "name" =&gt; 'John',
-  "email" =&gt; 'test@email.com',
-  "phone" =&gt; '55443322',
-  "note" =&gt; 'some random dude',
-  "custom_attributes" =&gt; {
-    "home_address" =&gt; 'Winston',
-    "vip" =&gt; "true"
+  "href": 'http://api.salemove.com/visitor',
+  "name": 'John',
+  "email": 'test@email.com',
+  "phone": '55443322',
+  "note": 'some random dude',
+  "custom_attributes": {
+    # These are custom fields, which you can define yourself. Those shown below are just examples
+    ...
+    "home_address": 'Winston',
+    "vip": "true"
   }
 }
 </code></pre>
@@ -95,15 +97,17 @@
   <li>
     <p>Request body</p>
 
-    <pre><code>}
-  "name" =&gt; 'John',
-  "email" =&gt; 'test@email.com',
-  "phone" =&gt; '55443322',
-  "note" =&gt; 'some random dude',
-  "custom_attributes" =&gt; {
-    "home_address" =&gt; 'Winston',
-    "vip" =&gt; 'true',
-    "last_visited" =&gt; '2014-02-18T12:24:34.420Z'
+    <pre><code>{
+  "name": 'John',
+  "email": 'test@email.com',
+  "phone": '55443322',
+  "note": 'some random dude',
+  "custom_attributes": {
+    # These are custom fields, which you can define yourself. Those shown below are just examples
+    ...
+    "home_address": 'Winston',
+    "vip": 'true',
+    "last_visited": '2014-02-18T12:24:34.420Z'
   }
 }
 </code></pre>
@@ -112,15 +116,17 @@
     <p>Response 200 (application/json)</p>
 
     <pre><code>{
-  "href" =&gt; 'http://api.salemove.com/visitor',
-  "name" =&gt; 'John',
-  "email" =&gt; 'test@email.com',
-  "phone" =&gt; '55443322',
-  "note" =&gt; 'some random dude',
-  "custom_attributes" =&gt; {
-    "home_address" =&gt; 'Winston',
-    "vip" =&gt; 'true',
-    "last_visited" =&gt; '2014-02-18T12:24:34.420Z'
+  "href": 'http://api.salemove.com/visitor',
+  "name": 'John',
+  "email": 'test@email.com',
+  "phone": '55443322',
+  "note": 'some random dude',
+  "custom_attributes": {
+    # These are custom fields, which you can define yourself. Those shown below are just examples
+    ...
+    "home_address": 'Winston',
+    "vip": 'true',
+    "last_visited": '2014-02-18T12:24:34.420Z'
   }
 }
 </code></pre>
@@ -299,13 +305,13 @@ The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
 Notification message: #sm_show_notification?message=some+message
 
 Contact information saving:
-#sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;notes=visitor+notes&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
+#sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
 
 Both notification and contact information saving:
-#sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;notes=visitor+notes&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
+#sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
 </code></pre>
 
-<p>To immediately show a notification to the operators or save visitors contact information when the visitor comes to the site you can put the hash at the end of the url. This can be used, for example, for high-profile clients who should be contacted immediately after they come to the page and some information about them is can already be prefilled.</p>
+<p>To immediately show a notification to the operators or save visitor’s contact information when the visitor comes to the site you can put the hash at the end of the url. This can be used, for example, for high-profile clients who should be contacted immediately after they come to the page and some information about them is can already be prefilled.</p>
 
 <p>The hash itself does not do anything, it needs some or all query parameters for effect. The query parameters should be put after the url-hash, separated with <strong>’?’</strong> sign from the url-hash.</p>
 
@@ -318,8 +324,8 @@ Both notification and contact information saving:
 <pre><code>?message=some+message+to+show+to+the+operator # This message is shown to the operator
 ?name=Visitor+Name # This name will be saved as the visitor name
 ?email=visitor@email.com # This email will be saved as the visitor email
-?phone=56565677 # This phone will be saved as the visitors phone
-?notes=Some+notes+about+the+visitor # This message will be saved as the visitor notes
+?phone=56565677 # This phone will be saved as the visitor's phone
+?note=Some+note+about+the+visitor # This message will be saved as the visitor's note
 
 # You can save custom information about the visitor as specified in the 'Update current visitor' section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with '&amp;' sign as other parameters.
 ?custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value

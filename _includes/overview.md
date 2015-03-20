@@ -1,4 +1,4 @@
-# Salemove public API.
+# SaleMove public API.
 Welcome to SaleMove public API
 
 # API types
@@ -45,6 +45,7 @@ All API access is over HTTPS and accessed from ```api.salemove.com``` domain. Al
 
 Blank fields are included as null instead of being omitted.
 
+## DateTime
 All timestamps are formatted to ISO-8601
 
     YYYY-MM-DDTHH:MM:SSZ

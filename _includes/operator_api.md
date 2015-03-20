@@ -46,38 +46,39 @@ Fetches a collection of all engagements that the current manager has access to c
 + Response 200 (application/json)
 
       {
-        'last_page' => 'http://api.salemove.com/engagements?page=1',
-        'engagements' => [
+        'last_page': 'https://api.salemove.com/engagements?page=2',
+        'next_page': 'https://api.salemove.com/engagements?page=2',
+        'engagements': [
           {
-            "href" => "http://api.salemove.com/engagements/1",
-            "duration" => 30,
-            "operators" => [
+            "href": "https://api.salemove.com/engagements/1",
+            "duration": 30,
+            "operators": [
               {
-                "href" => "http://api.salemove.com/operators/4"
+                "href": "https://api.salemove.com/operators/4"
               }
             ],
-            "visitor" => {
-              "href" => "http://api.salemove.com/visitors/1"
+            "visitor": {
+              "href": "https://api.salemove.com/visitors/1"
             },
-            "chat_transcript" =>
+            "chat_transcript":
             {
-              "href" => "http://api.salemove.com/engagements/1/chat_trascript"
+              "href": "https://api.salemove.com/engagements/1/chat_trascript"
             }
           },
           {
-            "href" => "http://api.salemove.com/engagements/2",
-            "duration" => 30,
-            "operators" => [
+            "href": "https://api.salemove.com/engagements/2",
+            "duration": 30,
+            "operators": [
               {
-                "href" => "http://api.salemove.com/operators/5"
+                "href": "https://api.salemove.com/operators/5"
               }
             ],
-            "visitor" => {
-              "href" => "http://api.salemove.com/visitors/6"
+            "visitor": {
+              "href": "https://api.salemove.com/visitors/6"
             },
-            "chat_transcript" =>
+            "chat_transcript":
             {
-              "href" => "http://api.salemove.com/engagements/2/chat_trascript"
+              "href": "https://api.salemove.com/engagements/2/chat_trascript"
             }
           }
         ]
@@ -86,32 +87,32 @@ Fetches a collection of all engagements that the current manager has access to c
 
 ## Get single engagement
 
-    GET /enagement/:engagement_id
+    GET /enagements/:engagement_id
 
 Fetches an engagement. The manager needs to have access to the site that the engagement belongs to.
 
 + Response 200 (application/json)
 
       {
-        "href" => "https://api.salemove.com/engagements/2",
-        "duration" => 30,
-        "operators" => [
+        "href": "https://api.salemove.com/engagements/2",
+        "duration": 30,
+        "operators": [
           {
-            "href" => "https://api.salemove.com/operators/4"
+            "href": "https://api.salemove.com/operators/4"
           }
         ],
-        "visitor" => {
-          "href" => "https://api.salemove.com/visitors/1"
+        "visitor": {
+          "href": "https://api.salemove.com/visitors/1"
         },
-        "chat_transcript" =>
+        "chat_transcript":
         {
-          "href" => "https://api.salemove.com/engagements/2/chat_trascript"
+          "href": "https://api.salemove.com/engagements/2/chat_trascript"
         }
       }
 
 ## Get engagement chat transcript
 
-    GET /enagement/:engagement_id/chat_transcript
+    GET /enagements/:engagement_id/chat_transcript
 
 Fetches the engagements chat transcript. The manager needs to have access to the site that the engagement belongs to.
 
@@ -119,30 +120,30 @@ Fetches the engagements chat transcript. The manager needs to have access to the
 
       [
         {
-          "message" => "This",
-          "created_at" => message1.created_at,
-          "sender" => {
-            "href" => "https://api.salemove.com:visitors/1",
-            "name" => nil,
-            "type" => "visitor"
+          "message": "This",
+          "created_at": "2015-03-20T14:21:09.475Z",
+          "sender": {
+            "href": "https://api.salemove.com:visitors/1",
+            "name": null,
+            "type": "visitor"
           }
         },
         {
-          "message" => "is",
-          "created_at" => message2.created_at,
-          "sender" => {
-            "href" => "https://api.salemove.com:operators/4",
-            "name" => "Kalle Kaalikas",
-            "type" => "operator"
+          "message": "is",
+          "created_at": "2015-03-20T14:21:09.475Z",
+          "sender": {
+            "href": "https://api.salemove.com:operators/4",
+            "name": "Kalle Kaalikas",
+            "type": "operator"
           }
         },
         {
-          "message" => "chat",
-          "created_at" => message3.created_at,
-          "sender" => {
-            "href" => "https://api.salemove.com:operators/5",
-            "name" => 'Kalle Kaalikas',
-            "type" => 'operator'
+          "message": "chat",
+          "created_at": "2015-03-20T14:21:09.475Z",
+          "sender": {
+            "href": "https://api.salemove.com:operators/5",
+            "name": 'Kalle Kaalikas',
+            "type": 'operator'
           }
         }
       ]
@@ -156,14 +157,16 @@ Fetches the engagements chat transcript. The manager needs to be able to have ac
 + Response 200 (application/json)
 
       {
-        "href" => "https://api.salemove.com/visitors/1",
-        "name" => 'John',
-        "email" => 'test@email.com',
-        "phone" => '55443322',
-        "note" => 'some random dude',
-        "custom_attributes" => {
-          "home_address" => 'Winston',
-          "vip" => "true"
+        "href": "https://api.salemove.com/visitors/1",
+        "name": 'John',
+        "email": 'test@email.com',
+        "phone": '55443322',
+        "note": 'some random dude',
+        "custom_attributes": {
+          # These are custom fields, which you can define yourself. Those shown below are just examples
+          ...
+          "home_address": 'Winston',
+          "vip": "true"
         }
       }
 
@@ -176,23 +179,24 @@ Fetches an operator that the manager can manage and configure. The manager needs
 + Response 200 (application/json)
 
       {
-        'last_page' => 'http://api.salemove.com/operators?page=1',
-        'operators' => [
+        'last_page': 'https://api.salemove.com/operators?page=2',
+        'next_page': 'https://api.salemove.com/operators?page=1',
+        'operators': [
           {
-            "href" => "http://api.salemove.com/operators/4",
-            "name" => 'Manager',
-            "email" => 'manager@email.com',
-            "phone" => '55443322',
-            "available" => true,
-            "role" => 'manager'
+            "href": "https://api.salemove.com/operators/4",
+            "name": 'Manager',
+            "email": 'manager@email.com',
+            "phone": '55443322',
+            "available": true,
+            "role": 'manager'
           },
           {
-            "href" => "http://api.salemove.com/operators/5",
-            "name" => 'John',
-            "email" => 'test@email.com',
-            "phone" => '55443322',
-            "available" => true,
-            "role" => 'operator'
+            "href": "https://api.salemove.com/operators/5",
+            "name": 'John',
+            "email": 'test@email.com',
+            "phone": '55443322',
+            "available": true,
+            "role": 'operator'
           }
         ]
       }
@@ -207,12 +211,12 @@ Lists all the operators that the manager can manage and configure. The manager n
 + Response 200 (application/json)
 
       {
-        "href" => "https://api.salemove.com/operators/4",
-        "name" => 'Manager',
-        "email" => 'manager@email.com',
-        "phone" => '55443322',
-        "available" => true,
-        "role" => 'manager'
+        "href": "https://api.salemove.com/operators/4",
+        "name": 'Manager',
+        "email": 'manager@email.com',
+        "phone": '55443322',
+        "available": true,
+        "role": 'manager'
       }
 
 ### Update an operator
@@ -232,10 +236,10 @@ Lists all the operators that the manager can manage and configure. The manager n
 + Response 200 (application/json)
 
         {
-          "href" => "https://api.salemove.com/operators/5",
-          "name" => 'Merry John',
-          "email" => 'some@new.email',
-          "phone" => '999993333',
-          "available" => false,
-          "role" => 'operator'
+          "href": "https://api.salemove.com/operators/5",
+          "name": 'Merry John',
+          "email": 'some@new.email',
+          "phone": '999993333',
+          "available": false,
+          "role": 'operator'
         }
