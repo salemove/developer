@@ -93,6 +93,8 @@
 
 <p>Updates the information of the current visitor on the site. You can send custom attributes attributes as key-value pairs to the visitor. The server treats all keys and values as strings and also returns them as strings. You cannot use nested key-value pairs.</p>
 
+<p>The <code>note_update_method</code> parameter takes either <code>replace</code> which replaces existing notes or <code>append</code> which adds note to the existing notes. If this field is left out, it defaults to <code>replace</code>.</p>
+
 <ul>
   <li>
     <p>Request body</p>
@@ -102,6 +104,7 @@
   "email": 'test@email.com',
   "phone": '55443322',
   "note": 'some random dude',
+  "note_update_method": 'append',
   "custom_attributes": {
     # These are custom fields, which you can define yourself. Those shown below are just examples
     ...
@@ -302,7 +305,7 @@ The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
 <h2 id="show-notification-and-save-visitor-contact-information-when-he-first-comes-to-the-page">Show notification and save visitor contact information when he first comes to the page</h2>
 
 <pre><code>Url-hash: #sm_show_notification
-Notification message: #sm_show_notification?message=some+message
+Notification message: #sm_show_notification
 
 Contact information saving:
 #sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
@@ -313,19 +316,19 @@ Both notification and contact information saving:
 
 <p>To immediately show a notification to the operators or save visitor’s contact information when the visitor comes to the site you can put the hash at the end of the url. This can be used, for example, for high-profile clients who should be contacted immediately after they come to the page and some information about them is can already be prefilled.</p>
 
-<p>The hash itself does not do anything, it needs some or all query parameters for effect. The query parameters should be put after the url-hash, separated with <strong>’?’</strong> sign from the url-hash.</p>
+<p>The query parameters should be put after the url-hash, separated with <strong>’?’</strong> sign from the url-hash. When using multiple parameters, separate them with <strong>‘&amp;’</strong> sign.</p>
 
 <p>When you want to <strong>use spaces</strong> in parameter values, you <strong>need to replace spaces with ‘+’ or ‘%20’ signs</strong>. The ‘+’ or ‘%20’ signs will be replaced by spaces automatically.</p>
 
-<p>When using multiple parameters, separate them with <strong>‘&amp;’</strong> sign.</p>
+<p>If some or all contact information parameters are missing, then missing values will not be updated. If no message is given, then a default message will be used for notification.</p>
 
 <p>The explanation of parameters is as follows:</p>
 
-<pre><code>?message=some+message+to+show+to+the+operator # This message is shown to the operator
+<pre><code>?message=some+message+to+show+to+the+operator # This message is shown to the operator.
 ?name=Visitor+Name # This name will be saved as the visitor name
 ?email=visitor@email.com # This email will be saved as the visitor email
 ?phone=56565677 # This phone will be saved as the visitor's phone
-?note=Some+note+about+the+visitor # This message will be saved as the visitor's note
+?note=Some+note+about+the+visitor # This note will be appended to the existing visitor's note.
 
 # You can save custom information about the visitor as specified in the 'Update current visitor' section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with '&amp;' sign as other parameters.
 ?custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
