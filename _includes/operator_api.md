@@ -41,7 +41,7 @@ The API version must be explicitly set in every request via the ```Accept``` hea
 
     GET /enagements
 
-Fetches a collection of all engagements that the current manager has access to configure. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and sorted by ID (ascending).
+Fetches a collection of all engagements that the current manager has access to configure. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and sorted by id (ascending).
 
 + Response 200 (application/json)
 
@@ -206,7 +206,7 @@ Fetches an operator that the manager can manage and configure. The manager needs
 
     GET /operators/:operator_id
 
-Lists all the operators that the manager can manage and configure. The manager needs to have access to the site in order to fetch the site's operators. The collection is paginated and sorted by ascending ID.
+Lists all the operators that the manager can manage and configure. The manager needs to have access to the site in order to fetch the site's operators. The collection is paginated and sorted by ascending id.
 
 + Response 200 (application/json)
 
@@ -242,4 +242,119 @@ Lists all the operators that the manager can manage and configure. The manager n
           "phone": '999993333',
           "available": false,
           "role": 'operator'
+        }
+
+
+## Create a new site
+
+    POST /sites
+
+The manager can create a new site with default settings in SaleMove platform. After that site is created, the SAML should be created so operators can use the site. The site needs to include SaleMove scripts on its pages for this feature to work.
+
+To create a new site, you must supply the site name and domain. Both the name and the domain of the site must be unique or the site creation will fail with appropriate error message. There can be more than 1 domain for a single site. The domains need to be full URIs.
+
++ Request body
+
+        {
+          "name": ''New site name',
+          "domain": ['http://some.domain.com', 'http://other.domain.com']
+        }
+
++ Response 200 (application/json)
+
+        {
+          "id": 1,
+          "hostnames": ["other.domain.com", "some.domain.com"],
+          "name": "New site name"
+        }
+
+## Create a SAML
+
+    POST /saml/:saml_id
+
+The manager can create a SAML for the site in SaleMove platform. The SAML can be created for any site the manager has administrator access.
+
+A single site can only have a single SAML. To update the SAML see [update a SAML](#update-the-saml).
+
+After the SAML is created, you can access it through the subdomain which was provided. e.g. if the requested subdomain is 'mysite', then you will be able to access the site by going to the url https://mysite.app.salemove.com
+
+To create a SAML for the site, you must provide the following parameters:
+
+    * idp_metadata_url        # An URL to the SAML Identity provider configuration metadata.
+    * site_id                 # The id of the site that the SAML will be created on
+    * name_identifier_format  # The name identifier format of the SAML
+    * subdomain               # The subdomain of the SAML which will become this sites URL. e.g. 'mysite' will become into 'mysite.app.salemove.com'
+
+    In addition, you can provide these optional SAML parameters:
+
+    * authn_context           # The authentication context of the SAML
+    * idp_name_attribute      # The identity provider name attribute
+    * idp_email_attribute     # The identity provider email attribute
+
++ Request body
+
+        {
+          "idp_metadata_url": "https://salemove.onelogin.com/saml/metadata/417618",
+          "site_id": 1,
+          "name_identifier_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+          "subdomain": "mysite",
+          "authn_context": "some auth value",
+          "idp_name_attribute": "some idp name value",
+          "idp_email_attribute": "some idp email value"
+        }
+
++ Response 200 (application/json)
+
+        {
+          "id": 1,
+          "subdomain": "mysite",
+          "idp_metadata_url": "https://salemove.onelogin.com/saml/metadata/417618",
+          "name_identifier_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+          "authn_context": "some auth value",
+          "idp_name_attribute": "some idp name value",
+          "idp_email_attribute": "some idp email value"
+        }
+
+## Update the SAML
+
+    POST /saml/:saml_id
+
+The manager can update the SAML.
+
+To update a SAML for the site, you must provide the following parameters:
+
+    * saml_id                 # The id of the SAML you will change
+    * site_id                 # The id of the site that the SAML will be created on. The site id is needed for authorization purposes
+
+In addition, you can provide the following attributes:
+
+    * idp_metadata_url        # An URL to the SAML Identity provider configuration metadata
+    * name_identifier_format  # The name identifier format of the SAML
+    * subdomain               # The subdomain of the SAML which will become this sites URL. e.g. 'mysite' will become into 'mysite.app.salemove.com'
+    * authn_context           # The authentication context of the SAML
+    * idp_name_attribute      # The identity provider name attribute
+    * idp_email_attribute     # The identity provider email attribute
+
++ Request body
+
+        {
+          "idp_metadata_url": "https://salemove.onelogin.com/saml/metadata/417618",
+          "site_id": 1,
+          "name_identifier_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+          "subdomain": "mysite",
+          "authn_context": "some auth value",
+          "idp_name_attribute": "some idp name value",
+          "idp_email_attribute": "some idp email value"
+        }
+
++ Response 200 (application/json)
+
+        {
+          "id": 1,
+          "subdomain": "mysite",
+          "idp_metadata_url": "https://salemove.onelogin.com/saml/metadata/417618",
+          "name_identifier_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+          "authn_context": "some auth value",
+          "idp_name_attribute": "some idp name value",
+          "idp_email_attribute": "some idp email value"
         }
