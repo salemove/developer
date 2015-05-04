@@ -19,13 +19,13 @@
 
 
 <h1 id="visitor-public-api">Visitor public API.</h1>
-<p>The visitor public API consist of HTTP REST endpoints, javscript, HTML, CSS API and hotlinks. The API can only be used straight in the visitor browser on the site - it cannot be used by third party services outside the site.</p>
+<p>The visitor public API consists of HTTP REST endpoints, javscript, HTML, CSS API and hotlinks. The API can only be used straight in the visitors’ browser on the site - it cannot be used by third party services outside the site.</p>
 
 <h2 id="headers">Headers</h2>
-<p>In order to use the REST API, the request needs to include at least 3 headers: <code>Authorization&lt;</code>, <code>Accept</code> and <code>X-Salemove-Visit-Session-ID</code>.</p>
+<p>In order to use the REST API, the request needs to include at least 3 headers: <code>Authorization</code>, <code>Accept</code> and <code>X-Salemove-Visit-Session-Id</code>.</p>
 
 <h3 id="authorization">Authorization</h3>
-<p>The request has to include the visitor’s <code>SessionId</code>. The visitor session id on the site can be retrieved by using the SaleMove javascript API:</p>
+<p>The request has to include the visitors’ <code>SessionId</code>. The visitor session id on the site can be retrieved by using the SaleMove javascript API:</p>
 
 <pre><code>'Authorization', salemoveApi.getRequestHeaders()['Authorization']
 </code></pre>
@@ -38,7 +38,7 @@
 </code></pre>
 
 <h3 id="x-salemove-visit-session-id-token">X-Salemove-Visit-Session-Id token</h3>
-<p>The request also needs to include <code>X-Salemove-Visit-Session-ID</code>.</p>
+<p>The request also needs to include <code>X-Salemove-Visit-Session-Id</code>.</p>
 
 <pre><code>'X-Salemove-Visit-Session-Id', salemoveApi.getRequestHeaders()['X-Salemove-Visit-Session-Id']
 </code></pre>
@@ -91,9 +91,9 @@
 <pre><code>POST /visitor
 </code></pre>
 
-<p>Updates the information of the current visitor on the site. You can send custom attributes attributes as key-value pairs to the visitor. The server treats all keys and values as strings and also returns them as strings. You cannot use nested key-value pairs.</p>
+<p>Updates the information of the current visitor on the site. You can send custom attributes as key-value pairs to the visitor. The server treats all keys and values as strings and also returns them as strings. You cannot use nested key-value pairs.</p>
 
-<p>The <code>note_update_method</code> parameter takes either <code>replace</code> which replaces existing notes or <code>append</code> which adds note to the existing notes. If this field is left out, it defaults to <code>replace</code>.</p>
+<p>The <code>note_update_method</code> parameter takes either value <code>replace</code> which replaces existing notes or value <code>append</code> which adds note to the existing notes. If this field is left out, the default <code>replace</code> value is omitted.</p>
 
 <ul>
   <li>
@@ -211,7 +211,7 @@ ENGAGEMENT_END
 <pre><code>class: sm_cobrowsing_hidden_field
 </code></pre>
 
-<p>To hide an element for the operator during observation or cobrowsing, you can put a css class on an element.</p>
+<p>To hide an element for the operator during observation or cobrowsing, assign a CSS class to an element.</p>
 
 <pre><code>&lt;div class='sm_cobrowsing_hidden_field'&gt;...&lt;/div&gt;
 &lt;div class='sm_cobrowsing_hidden_field other-classes'&gt;...&lt;/div&gt;
@@ -225,13 +225,13 @@ ENGAGEMENT_END
 <pre><code>class: sm_cobrowsing_masked_field
 </code></pre>
 
-<p>To hide the value of an element for the operator during observation or cobrowsing, you can put a css class on an input. Every character that the visitor types to that field will be replaced with an asterisk <code>*</code> for the operator.</p>
+<p>To hide the value of an element for the operator during observation or cobrowsing, assign a CSS class to an input element. Every character that the visitor types to that field will be replaced with an asterisk <code>*</code> for the operator.</p>
 
 <pre><code>&lt;form action="action" method="get"&gt;
 First name:
 &lt;input class="sm_cobrowsing_masked_field" type="text" name="first_name" /&gt;
 Last name:
-&lt;input class= "sm_cobrowsing_masked_field last_name_class"type="text" name="last_name" /&gt;
+&lt;input class="sm_cobrowsing_masked_field last_name_class" type="text" name="last_name" /&gt;
 &lt;input type="submit" value="Submit" /&gt;
 &lt;/form&gt;
 </code></pre>
@@ -241,13 +241,13 @@ Last name:
 <pre><code>class: sm_cobrowsing_disabled_field
 </code></pre>
 
-<p>To disable an element for the operator during cobrowsing, to the operator cannot interact with the element, you can put a css class on an input.</p>
+<p>To disable an element for the operator during cobrowsing, assign a CSS class to an input element. The operator cannot interact with the element. </p>
 
 <pre><code>&lt;form action="action" method="get"&gt;
 First name:
 &lt;input class="sm_cobrowsing_disabled_field" type="text" name="first_name" /&gt;
 Last name:
-&lt;input class= "sm_cobrowsing_disabled_field last_name_class"type="text" name="last_name" /&gt;
+&lt;input class="sm_cobrowsing_disabled_field last_name_class "type="text" name="last_name" /&gt;
 &lt;input type="submit" value="Submit" /&gt;
 &lt;/form&gt;
 </code></pre>
@@ -257,7 +257,7 @@ Last name:
 <pre><code>class: salemove-button
 </code></pre>
 
-<p>To put a SaleMove specific button on the web page that will open media-selection dialog when clicked, you can put a css class on a button or span. The button color and text can be customized by speaking with your customer success manager.</p>
+<p>To put a SaleMove specific button on the web page that will open media-selection dialog when clicked, assign a CSS class to a button or span element. The button color and text can be customized by speaking with your customer success manager.</p>
 
 <pre><code>&lt;div class='salemove-button'&gt;...&lt;/div&gt;
 &lt;span class='salemove-button'&gt;...&lt;/span&gt;
@@ -268,7 +268,7 @@ Last name:
 <pre><code>Attribute: data-sm-show-media-selection-on=[event]
 </code></pre>
 
-<p>To put a SaleMove specific button on the page on any type of element, not just button or span, that will trigger media-selection, use a custom javascript attribute on the element with the desired (DOM event)[http://www.w3schools.com/jsref/dom_obj_event.asp].</p>
+<p>To put a SaleMove specific button to the page on any type of element, not just button or span, that will trigger media-selection, use a custom javascript attribute on the element with the desired (DOM event)[http://www.w3schools.com/jsref/dom_obj_event.asp].</p>
 
 <pre><code>link: &lt;a data-sm-show-media-selection-on="click" href="javascript:void(0);"&gt;...&lt;/a&gt;
 div: &lt;div data-sm-show-media-selection-on="dblclick"&gt;&lt;h3&gt;Double-click me to start an engagement!&lt;/h3&gt;&lt;/div&gt;
@@ -278,10 +278,10 @@ div: &lt;div data-sm-show-media-selection-on="dblclick"&gt;&lt;h3&gt;Double-clic
 
 <h2 id="trigger-media-selection">Trigger media selection</h2>
 
-<pre><code>Url-hash: #sm_show_media_selection
+<pre><code>URL-hash: #sm_show_media_selection
 </code></pre>
 
-<p>To trigger a media selection dialog immediately when the page opens, put a hash at the end of the url. This can be used, for example, to open the media selection immediately after the site visitor clicks on a link and navigates to a new page.</p>
+<p>To trigger the media selection dialog immediately when the page opens, put a hash at the end of the URL. This can be used, for example, to open the media selection immediately after the site visitor clicks on a link and navigates to a new page.</p>
 
 <pre><code>With site address:      http://www.site.com
 The ‘hotlink' would be: http://www.site.com#sm_show_media_selection.
@@ -291,10 +291,10 @@ The ‘hotlink' would be: http://www.site.com#sm_show_media_selection.
 
 <h2 id="trigger-expand-reactive-tab-for-x-seconds">Trigger expand reactive tab for X seconds</h2>
 
-<pre><code>Url-hash: #sm_show_reactive_tab_20_seconds
+<pre><code>URL-hash: #sm_show_reactive_tab_20_seconds
 </code></pre>
 
-<p>To expand the reactive tab for X seconds then the linked page opens, you can put a hash at the end of the url. This can be used, for example, to show the operator selector immediately after the visitor clicks on a link and navigates to a new page.</p>
+<p>To expand the reactive tab for X seconds when the linked page opens, put a hash at the end of the URL. This can be used, for example, to show the operator selector immediately after the visitor clicks on a link and navigates to a new page.</p>
 
 <pre><code>With site address:      http://www.site.com
 The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
@@ -304,7 +304,7 @@ The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
 
 <h2 id="show-notification-and-save-visitor-contact-information-when-he-first-comes-to-the-page">Show notification and save visitor contact information when he first comes to the page</h2>
 
-<pre><code>Url-hash: #sm_show_notification
+<pre><code>URL-hash: #sm_show_notification
 Notification message: #sm_show_notification
 
 Contact information saving:
@@ -314,11 +314,11 @@ Both notification and contact information saving:
 #sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
 </code></pre>
 
-<p>To immediately show a notification to the operators or save visitor’s contact information when the visitor comes to the site you can put the hash at the end of the url. This can be used, for example, for high-profile clients who should be contacted immediately after they come to the page and some information about them is can already be prefilled.</p>
+<p>To immediately show a notification to operators, or save visitors’ contact information when the visitor comes to the site, you can put the hash at the end of the URL. This can be used, for example for high-profile clients who should be contacted immediately after they come to the page and some information about them can already be pre-filled.</p>
 
-<p>The query parameters should be put after the url-hash, separated with <strong>’?’</strong> sign from the url-hash. When using multiple parameters, separate them with <strong>‘&amp;’</strong> sign.</p>
+<p>The query parameters should be put after the URL-hash, separated with the question mark <strong>’?’</strong> sign from the URL-hash. When using multiple parameters, separate them with the ampersand <strong>‘&amp;’</strong> sign.</p>
 
-<p>When you want to <strong>use spaces</strong> in parameter values, you <strong>need to replace spaces with ‘+’ or ‘%20’ signs</strong>. The ‘+’ or ‘%20’ signs will be replaced by spaces automatically.</p>
+<p>When you want to <strong>use spaces</strong> in parameter values, you <strong>need to replace spaces with ‘+’ or ‘%20’ signs</strong>. The ‘+’ or ‘%20’ signs will be replaced with spaces automatically.</p>
 
 <p>If some or all contact information parameters are missing, then missing values will not be updated. If no message is given, then a default message will be used for notification.</p>
 
@@ -327,10 +327,10 @@ Both notification and contact information saving:
 <pre><code>?message=some+message+to+show+to+the+operator # This message is shown to the operator.
 ?name=Visitor+Name # This name will be saved as the visitor name
 ?email=visitor@email.com # This email will be saved as the visitor email
-?phone=56565677 # This phone will be saved as the visitor's phone
-?note=Some+note+about+the+visitor # This note will be appended to the existing visitor's note.
+?phone=56565677 # This phone will be saved as the visitors' phone
+?note=Some+note+about+the+visitor # This note will be appended to the existing visitors' note.
 
-# You can save custom information about the visitor as specified in the 'Update current visitor' section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with '&amp;' sign as other parameters.
+# You can save custom information about the visitor as specified in the 'Update current visitor' section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with the ampersand '&amp;' sign as other parameters.
 ?custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
 </code></pre>
 

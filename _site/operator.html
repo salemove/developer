@@ -19,16 +19,16 @@
 
 
 <h1 id="operator-public-api">Operator public API.</h1>
-<p>The operator’s public API comprises a set of HTTP REST endpoints that can be used from the browser, command line, a server application, or other devices.</p>
+<p>The operators’ public API comprises a set of HTTP REST endpoints that can be used from the browser, command line, a server application, or other devices.</p>
 
 <h2 id="headers">Headers</h2>
 <p>In order to use the REST API, every request needs to include at least 2 headers: the  <code>Authorization</code> and the <code>Accept</code>.</p>
 
 <h3 id="authorization">Authorization</h3>
-<p>Every request needs to include either the operator <code>SessionId</code> or <code>ApiToken</code>. It is recommended to use the API token which you can request to our support team. The API token is assigned per operator and currently only operators with manager privileges have the token enabled.</p>
+<p>Every request needs to include either the operator <code>SessionId</code> or <code>ApiToken</code>. It is recommended to use the API token which you can request from our support team. The API token is assigned per operator and currently only operators with manager privileges have the token enabled.</p>
 
 <h4 id="api-token-example">API token example</h4>
-<p>The following is an example of a curl request which inclues the API token:</p>
+<p>The following is an example of a curl request which includes the API token:</p>
 
 <pre><code>curl -i https://api.salemove.com/engagements --header "Authorization: ApiToken MY_SECRET_API_TOKEN"
 </code></pre>
@@ -58,7 +58,7 @@
 
 <h2 id="list-engagements">List engagements</h2>
 
-<pre><code>GET /enagements
+<pre><code>GET /engagements
 </code></pre>
 
 <p>Fetches a collection of all engagements that the current manager has access to configure. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and sorted by id (ascending).</p>
@@ -111,7 +111,7 @@
 
 <h2 id="get-single-engagement">Get single engagement</h2>
 
-<pre><code>GET /enagements/:engagement_id
+<pre><code>GET /enagements/{engagement_id}
 </code></pre>
 
 <p>Fetches an engagement. The manager needs to have access to the site that the engagement belongs to.</p>
@@ -142,7 +142,7 @@
 
 <h2 id="get-engagement-chat-transcript">Get engagement chat transcript</h2>
 
-<pre><code>GET /enagements/:engagement_id/chat_transcript
+<pre><code>GET /enagements/{engagement_id}/chat_transcript
 </code></pre>
 
 <p>Fetches the engagements chat transcript. The manager needs to have access to the site that the engagement belongs to.</p>
@@ -156,7 +156,7 @@
     "message": "This",
     "created_at": "2015-03-20T14:21:09.475Z",
     "sender": {
-      "href": "https://api.salemove.com:visitors/1",
+      "href": "https://api.salemove.com/visitors/1",
       "name": null,
       "type": "visitor"
     }
@@ -165,7 +165,7 @@
     "message": "is",
     "created_at": "2015-03-20T14:21:09.475Z",
     "sender": {
-      "href": "https://api.salemove.com:operators/4",
+      "href": "https://api.salemove.com/operators/4",
       "name": "Kalle Kaalikas",
       "type": "operator"
     }
@@ -174,7 +174,7 @@
     "message": "chat",
     "created_at": "2015-03-20T14:21:09.475Z",
     "sender": {
-      "href": "https://api.salemove.com:operators/5",
+      "href": "https://api.salemove.com/operators/5",
       "name": 'Kalle Kaalikas',
       "type": 'operator'
     }
@@ -186,7 +186,7 @@
 
 <h2 id="get-visitor-by-id">Get visitor by id</h2>
 
-<pre><code>GET /visitors/:visitor_id
+<pre><code>GET /visitors/{visitor_id}
 </code></pre>
 
 <p>Fetches the engagements chat transcript. The manager needs to be able to have access to the site that the visitor visited.</p>
@@ -217,7 +217,7 @@
 <pre><code>GET /operators
 </code></pre>
 
-<p>Fetches an operator that the manager can manage and configure. The manager needs to have access to the site in order to fetch the site’s operators.</p>
+<p>Fetches an operator that the manager can manage and configure. The manager needs to have access to the site in order to fetch the sites’ operators.</p>
 
 <ul>
   <li>
@@ -251,10 +251,10 @@
 
 <h2 id="get-an-operator">Get an operator</h2>
 
-<pre><code>GET /operators/:operator_id
+<pre><code>GET /operators/{operator_id}
 </code></pre>
 
-<p>Lists all the operators that the manager can manage and configure. The manager needs to have access to the site in order to fetch the site’s operators. The collection is paginated and sorted by ascending id.</p>
+<p>Lists all the operators that the manager can manage and configure. The manager needs to have access to the site in order to fetch the sites’ operators. The collection is paginated and sorted by ascending id.</p>
 
 <ul>
   <li>
@@ -274,7 +274,7 @@
 
 <h3 id="update-an-operator">Update an operator</h3>
 
-<pre><code>PATCH /operators/:operator_id
+<pre><code>PATCH /operators/{operator_id}
 </code></pre>
 
 <ul>
@@ -337,14 +337,14 @@
 
 <h2 id="create-a-saml">Create a SAML</h2>
 
-<pre><code>POST /saml/:saml_id
+<pre><code>POST /saml/{saml_id}
 </code></pre>
 
 <p>The manager can create a SAML for the site in SaleMove platform. The SAML can be created for any site the manager has administrator access.</p>
 
 <p>A single site can only have a single SAML. To update the SAML see <a href="#update-the-saml">update a SAML</a>.</p>
 
-<p>After the SAML is created, you can access it through the subdomain which was provided. e.g. if the requested subdomain is ‘mysite’, then you will be able to access the site by going to the url https://mysite.app.salemove.com</p>
+<p>After the SAML is created, you can access it through the subdomain which was provided. e.g. if the requested subdomain is ‘mysite’, then you will be able to access the site by going to the URL https://mysite.app.salemove.com</p>
 
 <p>To create a SAML for the site, you must provide the following parameters:</p>
 
@@ -360,7 +360,7 @@ In addition, you can provide these optional SAML parameters:
 * idp_email_attribute     # The identity provider email attribute
 </code></pre>
 
-<p>Once the SAML is created, you can access the SAML metadata by going to your subdomains /saml/metadata. For example, if your subdomain was mysite, then you can access your SAML metadata by going to the url https://mysite.app.salemove.com/saml/metadata</p>
+<p>Once the SAML is created, you can access the SAML metadata by going to your subdomains’ /saml/metadata. For example, if your subdomain was mysite, then you can access your SAML metadata by going to the url https://mysite.app.salemove.com/saml/metadata</p>
 
 <ul>
   <li>
@@ -395,7 +395,7 @@ In addition, you can provide these optional SAML parameters:
 
 <h2 id="update-the-saml">Update the SAML</h2>
 
-<pre><code>POST /saml/:saml_id
+<pre><code>POST /saml/{saml_id}
 </code></pre>
 
 <p>The manager can update the SAML.</p>

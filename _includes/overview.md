@@ -1,18 +1,18 @@
 # SaleMove public API.
-Welcome to SaleMove public API
+Welcome to SaleMove public API documentation!
 
 # API types
 
-SaleMove provides of APIs to be used in both the visitor's and the operator's browsers.
+SaleMove provides number of APIs to be used in both the visitors' and the operators' browsers.
 
 The visitor side API endpoints can be accessed directly through the visitor browser. The API includes both public REST endpoints and javascript API. The REST endpoints require the visitor session id to be sent along with the requests for authentication purposes.
 
-he operator side API includes a set of public REST endpoints that can be accessed by an operator who has been granted with manager privileges. In order to use the REST endpoints, the requests should include either the operator session token or the api token for authentication purposes. The API token can be received by contacting our support.
+The operator side API includes a set of public REST endpoints that can be accessed by an operator who has been granted with manager privileges. In order to use the REST endpoints, the requests should include either the operator session token or the API token for authentication purposes. The API token can be received by contacting our support.
 
 
 # Current version
 
-The current api version is **v1**  and this must be explicitly set while sending a request ```Accept```  header.
+The current API version is **v1**  and this must be explicitly set while sending a request ```Accept```  header:
 
 
     Accept: application/vnd.salemove.v1+json
@@ -20,7 +20,7 @@ The current api version is **v1**  and this must be explicitly set while sending
 
 # Schema
 
-All API access is over HTTPS and accessed from ```api.salemove.com``` domain. All data is sent and received as JSON
+All APIs are accessed over HTTPS from ```api.salemove.com``` domain. All data is sent and received as JSON.
 
 
     $ curl -i https://api.salemove.com/engagements HEADER_DATA
@@ -53,11 +53,11 @@ All timestamps are formatted to ISO-8601
 
 ## Collections or list of resources
 
-Requests that return multiple items are paginated to 30 items by default. You can specify further pages by setting the ?page parameter. In addition, It is possible to set a custom page size up to 100 with the ?per_page parameter.
+Requests that return multiple items are paginated to 30 items by default. You can specify further pages by setting the ?page parameter. In addition, it is possible to set a custom page size up to 100 with the ?per_page parameter.
 
 
 ### Example
-When you fetch all the operators then the response includes the first 30 operators:
+Fetching for all the operators returns the first 30 operators:
 
     GET /operators
 
@@ -66,10 +66,10 @@ In order to get the second page of the operators set the parameter ```page``` to
     GET /operators?page=2
 
 ### Next and last page links
-The response of the paginated collections always contains the ```last_page``` href and, if available, the ```next_page<``` href. It is strongly recommended to follow these references, instead of constructing your own URLs.
+The response of the paginated collections always contains the ```last_page``` element and, if available, the ```next_page<``` element with corresponding URI. It is strongly recommended to follow these references, instead of constructing your own URLs.
 
 ####Example
-An example of an arbitarty collection response:
+An example of an arbitrary collection response:
 
     {
         'next_page' => 'http://api.salemove.com/collections?page=2',
@@ -91,7 +91,7 @@ An example of an arbitarty collection response:
 
 # Client errors
 
-When a request throws an error, it returns a JSON describing the error. In addition, in most of the cases the response includes both the error and a debug message. This information can be further used to troubleshoot problems better.
+In case of invalid request, an error is thrown. The response is returned as JSON describing the error. In addition, in most of the cases the response includes both the error and a debug message. This information can be further used to troubleshoot problems.
 
 
     HTTP/1.1 400 400
@@ -104,7 +104,7 @@ When a request throws an error, it returns a JSON describing the error. In addit
 
 # HTTP Verbs
 
-Where possible, API v3 strives to use appropriate HTTP verbs for each
+Where possible, API strives to use appropriate HTTP verbs for each
 action.
 
 Verb | Description
@@ -118,4 +118,4 @@ Verb | Description
 
 # Cross Origin Resource Sharing
 
-The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin. You can read the CORS W3C Recommendation, or this intro from the HTML 5 Security Guide.
+The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin. You can read the CORS W3C Recommendation, or the intro from the HTML 5 Security Guide.

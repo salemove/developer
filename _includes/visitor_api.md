@@ -1,11 +1,11 @@
 # Visitor public API.
-The visitor public API consist of HTTP REST endpoints, javscript, HTML, CSS API and hotlinks. The API can only be used straight in the visitor browser on the site - it cannot be used by third party services outside the site.
+The visitor public API consists of HTTP REST endpoints, javscript, HTML, CSS API and hotlinks. The API can only be used straight in the visitors' browser on the site - it cannot be used by third party services outside the site.
 
 ## Headers
-In order to use the REST API, the request needs to include at least 3 headers: ```Authorization<```, ```Accept``` and ```X-Salemove-Visit-Session-ID```.
+In order to use the REST API, the request needs to include at least 3 headers: ```Authorization```, ```Accept``` and ```X-Salemove-Visit-Session-Id```.
 
 ### Authorization
-The request has to include the visitor's ```SessionId```. The visitor session id on the site can be retrieved by using the SaleMove javascript API:
+The request has to include the visitors' ```SessionId```. The visitor session id on the site can be retrieved by using the SaleMove javascript API:
 
     'Authorization', salemoveApi.getRequestHeaders()['Authorization']
 
@@ -16,7 +16,7 @@ The API version must be explicitly set in the request ```Accept``` header.
     Accept: application/vnd.salemove.v1+json
 
 ### X-Salemove-Visit-Session-Id token
-The request also needs to include ```X-Salemove-Visit-Session-ID```.
+The request also needs to include ```X-Salemove-Visit-Session-Id```.
 
     'X-Salemove-Visit-Session-Id', salemoveApi.getRequestHeaders()['X-Salemove-Visit-Session-Id']
 
@@ -62,9 +62,9 @@ Fetches the information of current visitor on the site.
 
     POST /visitor
 
-Updates the information of the current visitor on the site. You can send custom attributes attributes as key-value pairs to the visitor. The server treats all keys and values as strings and also returns them as strings. You cannot use nested key-value pairs.
+Updates the information of the current visitor on the site. You can send custom attributes as key-value pairs to the visitor. The server treats all keys and values as strings and also returns them as strings. You cannot use nested key-value pairs.
 
-The ```note_update_method``` parameter takes either ```replace``` which replaces existing notes or ```append``` which adds note to the existing notes. If this field is left out, it defaults to ```replace```.
+The ```note_update_method``` parameter takes either value ```replace``` which replaces existing notes or value ```append``` which adds note to the existing notes. If this field is left out, the default ```replace``` value is omitted.
 
 + Request body
 
@@ -165,7 +165,7 @@ Returns a hash of the headers and values that are required for the visitor to au
 
     class: sm_cobrowsing_hidden_field
 
-To hide an element for the operator during observation or cobrowsing, you can put a css class on an element.
+To hide an element for the operator during observation or cobrowsing, assign a CSS class to an element.
 
     <div class='sm_cobrowsing_hidden_field'>...</div>
     <div class='sm_cobrowsing_hidden_field other-classes'>...</div>
@@ -177,13 +177,13 @@ To hide an element for the operator during observation or cobrowsing, you can pu
 
     class: sm_cobrowsing_masked_field
 
-To hide the value of an element for the operator during observation or cobrowsing, you can put a css class on an input. Every character that the visitor types to that field will be replaced with an asterisk ```*``` for the operator.
+To hide the value of an element for the operator during observation or cobrowsing, assign a CSS class to an input element. Every character that the visitor types to that field will be replaced with an asterisk ```*``` for the operator.
 
     <form action="action" method="get">
     First name:
     <input class="sm_cobrowsing_masked_field" type="text" name="first_name" />
     Last name:
-    <input class= "sm_cobrowsing_masked_field last_name_class"type="text" name="last_name" />
+    <input class="sm_cobrowsing_masked_field last_name_class" type="text" name="last_name" />
     <input type="submit" value="Submit" />
     </form>
 
@@ -191,13 +191,13 @@ To hide the value of an element for the operator during observation or cobrowsin
 
     class: sm_cobrowsing_disabled_field
 
-To disable an element for the operator during cobrowsing, to the operator cannot interact with the element, you can put a css class on an input.
+To disable an element for the operator during cobrowsing, assign a CSS class to an input element. The operator cannot interact with the element. 
 
     <form action="action" method="get">
     First name:
     <input class="sm_cobrowsing_disabled_field" type="text" name="first_name" />
     Last name:
-    <input class= "sm_cobrowsing_disabled_field last_name_class"type="text" name="last_name" />
+    <input class="sm_cobrowsing_disabled_field last_name_class "type="text" name="last_name" />
     <input type="submit" value="Submit" />
     </form>
 
@@ -205,7 +205,7 @@ To disable an element for the operator during cobrowsing, to the operator cannot
 
     class: salemove-button
 
-To put a SaleMove specific button on the web page that will open media-selection dialog when clicked, you can put a css class on a button or span. The button color and text can be customized by speaking with your customer success manager.
+To put a SaleMove specific button on the web page that will open media-selection dialog when clicked, assign a CSS class to a button or span element. The button color and text can be customized by speaking with your customer success manager.
 
     <div class='salemove-button'>...</div>
     <span class='salemove-button'>...</span>
@@ -214,7 +214,7 @@ To put a SaleMove specific button on the web page that will open media-selection
 
     Attribute: data-sm-show-media-selection-on=[event]
 
-To put a SaleMove specific button on the page on any type of element, not just button or span, that will trigger media-selection, use a custom javascript attribute on the element with the desired (DOM event)[http://www.w3schools.com/jsref/dom_obj_event.asp].
+To put a SaleMove specific button to the page on any type of element, not just button or span, that will trigger media-selection, use a custom javascript attribute on the element with the desired (DOM event)[http://www.w3schools.com/jsref/dom_obj_event.asp].
 
     link: <a data-sm-show-media-selection-on="click" href="javascript:void(0);">...</a>
     div: <div data-sm-show-media-selection-on="dblclick"><h3>Double-click me to start an engagement!</h3></div>
@@ -223,9 +223,9 @@ To put a SaleMove specific button on the page on any type of element, not just b
 
 ## Trigger media selection
 
-    Url-hash: #sm_show_media_selection
+    URL-hash: #sm_show_media_selection
 
-To trigger a media selection dialog immediately when the page opens, put a hash at the end of the url. This can be used, for example, to open the media selection immediately after the site visitor clicks on a link and navigates to a new page.
+To trigger the media selection dialog immediately when the page opens, put a hash at the end of the URL. This can be used, for example, to open the media selection immediately after the site visitor clicks on a link and navigates to a new page.
 
 
     With site address:      http://www.site.com
@@ -235,9 +235,9 @@ To trigger a media selection dialog immediately when the page opens, put a hash 
 
 ## Trigger expand reactive tab for X seconds
 
-    Url-hash: #sm_show_reactive_tab_20_seconds
+    URL-hash: #sm_show_reactive_tab_20_seconds
 
-To expand the reactive tab for X seconds then the linked page opens, you can put a hash at the end of the url. This can be used, for example, to show the operator selector immediately after the visitor clicks on a link and navigates to a new page.
+To expand the reactive tab for X seconds when the linked page opens, put a hash at the end of the URL. This can be used, for example, to show the operator selector immediately after the visitor clicks on a link and navigates to a new page.
 
     With site address:      http://www.site.com
     The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
@@ -246,7 +246,7 @@ To expand the reactive tab for X seconds then the linked page opens, you can put
 
 ## Show notification and save visitor contact information when he first comes to the page
 
-    Url-hash: #sm_show_notification
+    URL-hash: #sm_show_notification
     Notification message: #sm_show_notification
 
     Contact information saving:
@@ -255,11 +255,11 @@ To expand the reactive tab for X seconds then the linked page opens, you can put
     Both notification and contact information saving:
     #sm_show_notification?message=some+message&name=visitor+name&phone=56567775&email=visitor@email.com&note=visitor+note&custom_attributes[attribute1]=attribute1+value&custom_attributes[attribute2]=attribute2+value
 
-To immediately show a notification to the operators or save visitor's contact information when the visitor comes to the site you can put the hash at the end of the url. This can be used, for example, for high-profile clients who should be contacted immediately after they come to the page and some information about them is can already be prefilled.
+To immediately show a notification to operators, or save visitors' contact information when the visitor comes to the site, you can put the hash at the end of the URL. This can be used, for example for high-profile clients who should be contacted immediately after they come to the page and some information about them can already be pre-filled.
 
-The query parameters should be put after the url-hash, separated with **'?'** sign from the url-hash. When using multiple parameters, separate them with **'&'** sign.
+The query parameters should be put after the URL-hash, separated with the question mark **'?'** sign from the URL-hash. When using multiple parameters, separate them with the ampersand **'&'** sign.
 
-When you want to **use spaces** in parameter values, you **need to replace spaces with '+' or '%20' signs**. The '+' or '%20' signs will be replaced by spaces automatically.
+When you want to **use spaces** in parameter values, you **need to replace spaces with '+' or '%20' signs**. The '+' or '%20' signs will be replaced with spaces automatically.
 
 If some or all contact information parameters are missing, then missing values will not be updated. If no message is given, then a default message will be used for notification.
 
@@ -268,9 +268,9 @@ The explanation of parameters is as follows:
     ?message=some+message+to+show+to+the+operator # This message is shown to the operator.
     ?name=Visitor+Name # This name will be saved as the visitor name
     ?email=visitor@email.com # This email will be saved as the visitor email
-    ?phone=56565677 # This phone will be saved as the visitor's phone
-    ?note=Some+note+about+the+visitor # This note will be appended to the existing visitor's note.
+    ?phone=56565677 # This phone will be saved as the visitors' phone
+    ?note=Some+note+about+the+visitor # This note will be appended to the existing visitors' note.
 
-    # You can save custom information about the visitor as specified in the 'Update current visitor' section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with '&' sign as other parameters.
+    # You can save custom information about the visitor as specified in the 'Update current visitor' section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with the ampersand '&' sign as other parameters.
     ?custom_attributes[attribute1]=attribute1+value&custom_attributes[attribute2]=attribute2+value
 
