@@ -291,6 +291,8 @@ To create a SAML for the site, you must provide the following parameters:
     * idp_name_attribute      # The identity provider name attribute
     * idp_email_attribute     # The identity provider email attribute
 
+Once the SAML is created, you can access the SAML metadata by going to your subdomains /saml/metadata. For example, if your subdomain was mysite, then you can access your SAML metadata by going to the url https://mysite.app.salemove.com/saml/metadata
+
 + Request body
 
         {
