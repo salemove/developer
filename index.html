@@ -837,7 +837,7 @@ Last name:
 <pre class="highlight html"><code>Attribute: data-sm-show-media-selection-on=[event]
 </code></pre>
 
-<p>To put a SaleMove specific button to the page on any type of element, not just button or span, that will trigger media-selection, use a custom javascript attribute on the element with the desired (DOM event)[http://www.w3schools.com/jsref/dom_obj_event.asp].</p>
+<p>To put a SaleMove specific button to the page on any type of element, not just button or span, that will trigger media-selection, use a custom javascript attribute on the element with the desired <a href="http://www.w3schools.com/jsref/dom_obj_event.asp">DOM event</a>.</p>
 
 <blockquote>
 <ul>
@@ -1013,16 +1013,20 @@ This message is shown to the operator:</p>
 
 <p>To create a SAML for the site, you must provide the following parameters:</p>
 
-<p>* idp_metadata_url        # An URL to the SAML Identity provider configuration metadata.
-    * site_id                 # The id of the site that the SAML will be created on
-    * name_identifier_format  # The name identifier format of the SAML
-    * subdomain               # The subdomain of the SAML which will become this sites URL. e.g. &#39;mysite&rsquo; will become into &#39;mysite.app.salemove.com&rsquo;</p>
+<ul>
+<li>idp_metadata_url        # An URL to the SAML Identity provider configuration metadata.</li>
+<li>site_id                 # The id of the site that the SAML will be created on</li>
+<li>name_identifier_format  # The name identifier format of the SAML</li>
+<li>subdomain               # The subdomain of the SAML which will become this sites URL. e.g. &#39;mysite&rsquo; will become into &#39;mysite.app.salemove.com&rsquo;</li>
+</ul>
 
 <p>In addition, you can provide these optional SAML parameters:</p>
 
-<p>* authn_context           # The authentication context of the SAML
-    * idp_name_attribute      # The identity provider name attribute
-    * idp_email_attribute     # The identity provider email attribute</p>
+<ul>
+<li>authn_context           # The authentication context of the SAML</li>
+<li>idp_name_attribute      # The identity provider name attribute</li>
+<li>idp_email_attribute     # The identity provider email attribute</li>
+</ul>
 
 <p>Once the SAML is created, you can access the SAML metadata by going to your subdomains&rsquo; /saml/metadata. For example, if your subdomain was mysite, then you can access your SAML metadata by going to the url https://mysite.app.salemove.com/saml/metadata</p>
 
