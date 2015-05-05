@@ -1014,18 +1014,18 @@ This message is shown to the operator:</p>
 <p>To create a SAML for the site, you must provide the following parameters:</p>
 
 <ul>
-<li>idp_metadata_url        # An URL to the SAML Identity provider configuration metadata.</li>
-<li>site_id                 # The id of the site that the SAML will be created on</li>
-<li>name_identifier_format  # The name identifier format of the SAML</li>
-<li>subdomain               # The subdomain of the SAML which will become this sites URL. e.g. &#39;mysite&rsquo; will become into &#39;mysite.app.salemove.com&rsquo;</li>
+<li><code class="prettyprint">idp_metadata_url</code>        <em>An URL to the SAML Identity provider configuration metadata.</em></li>
+<li><code class="prettyprint">site_id</code>                 <em>The id of the site that the SAML will be created on</em></li>
+<li><code class="prettyprint">name_identifier_format</code>  <em>The name identifier format of the SAML</em></li>
+<li><code class="prettyprint">subdomain</code>               <em>The subdomain of the SAML which will become this sites URL. e.g. &#39;mysite&rsquo; will become into &#39;mysite.app.salemove.com&rsquo;</em></li>
 </ul>
 
 <p>In addition, you can provide these optional SAML parameters:</p>
 
 <ul>
-<li>authn_context           # The authentication context of the SAML</li>
-<li>idp_name_attribute      # The identity provider name attribute</li>
-<li>idp_email_attribute     # The identity provider email attribute</li>
+<li><code class="prettyprint">authn_context</code>           <em>The authentication context of the SAML</em></li>
+<li><code class="prettyprint">idp_name_attribute</code>      <em>The identity provider name attribute</em></li>
+<li><code class="prettyprint">idp_email_attribute</code>     <em>The identity provider email attribute</em></li>
 </ul>
 
 <p>Once the SAML is created, you can access the SAML metadata by going to your subdomains&rsquo; /saml/metadata. For example, if your subdomain was mysite, then you can access your SAML metadata by going to the url https://mysite.app.salemove.com/saml/metadata</p>
@@ -1074,17 +1074,21 @@ This message is shown to the operator:</p>
 
 <p>To update a SAML for the site, you must provide the following parameters:</p>
 
-<p>* saml_id                 # The id of the SAML you will change
-    * site_id                 # The id of the site that the SAML will be created on. The site id is needed for authorization purposes</p>
+<ul>
+<li><code class="prettyprint">saml_id</code>                 <em>The id of the SAML you will change</em></li>
+<li><code class="prettyprint">site_id</code>                 <em>The id of the site that the SAML will be created on. The site id is needed for authorization purposes</em></li>
+</ul>
 
 <p>In addition, you can provide the following attributes:</p>
 
-<p>* idp_metadata_url        # An URL to the SAML Identity provider configuration metadata
-    * name_identifier_format  # The name identifier format of the SAML
-    * subdomain               # The subdomain of the SAML which will become this sites URL. e.g. &#39;mysite&rsquo; will become into &#39;mysite.app.salemove.com&rsquo;
-    * authn_context           # The authentication context of the SAML
-    * idp_name_attribute      # The identity provider name attribute
-    * idp_email_attribute     # The identity provider email attribute</p>
+<ul>
+<li><code class="prettyprint">idp_metadata_url</code>        <em>An URL to the SAML Identity provider configuration metadata</em></li>
+<li><code class="prettyprint">name_identifier_format</code>  <em>The name identifier format of the SAML</em></li>
+<li><code class="prettyprint">subdomain</code>               <em>The subdomain of the SAML which will become this sites URL. e.g. &#39;mysite&rsquo; will become into &#39;mysite.app.salemove.com&rsquo;</em></li>
+<li><code class="prettyprint">authn_context</code>           <em>The authentication context of the SAML</em></li>
+<li><code class="prettyprint">idp_name_attribute</code>      <em>The identity provider name attribute</em></li>
+<li><code class="prettyprint">idp_email_attribute</code>     <em>The identity provider email attribute</em></li>
+</ul>
 
 <blockquote>
 <ul>
