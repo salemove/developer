@@ -1,0 +1,1122 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Salemove API</title>
+
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src="javascripts/all.js" type="text/javascript"></script>
+
+  </head>
+
+  <body class="index">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="salemove-public-api.">SaleMove public API.</h1>
+
+<p>Welcome to SaleMove public API documentation!</p>
+
+<h2 id="api-types">API types</h2>
+
+<p>SaleMove provides number of APIs to be used in both the visitors&rsquo; and the operators&rsquo; browsers.</p>
+
+<p>The visitor side API endpoints can be accessed directly through the visitor browser. The API includes both public REST endpoints and javascript API. The REST endpoints require the visitor session id to be sent along with the requests for authentication purposes.</p>
+
+<p>The operator side API includes a set of public REST endpoints that can be accessed by an operator who has been granted with manager privileges. In order to use the REST endpoints, the requests should include either the operator session token or the API token for authentication purposes. The API token can be received by contacting our support.</p>
+
+<h2 id="current-version">Current version</h2>
+
+<p>The current API version is <strong>v1</strong>  and this must be explicitly set while sending a request <code class="prettyprint">Accept</code>  header.</p>
+
+<blockquote>
+<p><code class="prettyprint">Accept</code>  header</p>
+</blockquote>
+<pre class="highlight shell"><code>Accept: application/vnd.salemove.v1+json
+</code></pre>
+
+<h2 id="schema">Schema</h2>
+
+<p>All APIs are accessed over HTTPS from <code class="prettyprint">api.salemove.com</code> domain. All data is sent and received as JSON.</p>
+
+<blockquote>
+<p>Access API via curl</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl -i https://api.salemove.com/engagements HEADER_DATA
+</code></pre>
+<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Date</span><span class="p">:</span> <span class="s">Thu, 29 Jan 2015 11:44:37 GMT</span>
+<span class="na">Status</span><span class="p">:</span> <span class="s">200 OK</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/html;charset=utf-8</span>
+<span class="na">Access-Control-Allow-Origin</span><span class="p">:</span> <span class="s">http://sm.dev:3001</span>
+<span class="na">Access-Control-Allow-Methods</span><span class="p">:</span> <span class="s">GET, POST, PUT, DELETE, OPTIONS, PATCH</span>
+<span class="na">Access-Control-Allow-Headers</span><span class="p">:</span> <span class="s">*, Content-Type, Accept, AUTHORIZATION, Cache-Control, X-Salemove-Visit-Session-Id</span>
+<span class="na">Access-Control-Allow-Credentials</span><span class="p">:</span> <span class="s">true</span>
+<span class="na">Access-Control-Max-Age</span><span class="p">:</span> <span class="s">1728000</span>
+<span class="na">Access-Control-Expose-Headers</span><span class="p">:</span> <span class="s">Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">0</span>
+<span class="na">X-XSS-Protection</span><span class="p">:</span> <span class="s">1; mode=block</span>
+<span class="na">X-Content-Type-Options</span><span class="p">:</span> <span class="s">nosniff</span>
+<span class="na">X-Frame-Options</span><span class="p">:</span> <span class="s">SAMEORIGIN</span>
+</code></pre>
+
+<p>Blank fields are included as null instead of being omitted.</p>
+
+<h3 id="datetime">DateTime</h3>
+
+<p>All timestamps are formatted to ISO-8601</p>
+
+<blockquote>
+<p>Timestamp format</p>
+</blockquote>
+<pre class="highlight shell"><code>YYYY-MM-DDTHH:MM:SSZ
+</code></pre>
+
+<h3 id="collections-or-list-of-resources">Collections or list of resources</h3>
+
+<p>Requests that return multiple items are paginated to 30 items by default. You can specify further pages by setting the ?page parameter. In addition, it is possible to set a custom page size up to 100 with the ?per_page parameter.</p>
+
+<p>Fetching for all the operators returns the first 30 operators</p>
+
+<blockquote>
+<p>Fetching all the operators, returns the first 30 operators</p>
+</blockquote>
+<pre class="highlight shell"><code>GET /operators
+</code></pre>
+
+<blockquote>
+<p>Get the second page of the operators, set the parameter <code class="prettyprint">page</code> to <code class="prettyprint">page=2</code></p>
+</blockquote>
+<pre class="highlight shell"><code>GET /operators?page<span class="o">=</span>2
+</code></pre>
+
+<h4 id="next-and-last-page-links">Next and last page links</h4>
+
+<p>The response of the paginated collections always contains the <code class="prettyprint">last_page</code> element and, if available, the <code class="prettyprint">next_page</code> element with corresponding URI. It is strongly recommended to follow these references, instead of constructing your own URLs.</p>
+
+<blockquote>
+<p>Arbitrary collection response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"next_page"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.salemove.com/collections?page=2"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_page"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.salemove.com/collections?page=3"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"collection"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"href"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.salemove.com/collections/1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"attribute"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"..."</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"href"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.salemove.com/collections/2"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"attribute"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"..."</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<h2 id="client-errors">Client errors</h2>
+
+<p>In case of invalid request, an error is thrown. The response is returned as JSON describing the error. In addition, in most of the cases the response includes both the error and a debug message. This information can be further used to troubleshoot problems.</p>
+<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">400</span> <span class="ne">400</span>
+</code></pre>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BadRequest"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invalid api version used"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"debug_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invalid api version used. Make sure you set the 'Accept' header with API version e.g. 'application/vnd.salemove.v1+json'"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<h2 id="http-verbs">HTTP Verbs</h2>
+
+<p>Where possible, API strives to use appropriate HTTP verbs for each
+action.</p>
+
+<table><thead>
+<tr>
+<th>HTTP_Verbs</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">HEAD</code></td>
+<td>Can be issued against any resource to get just the HTTP header info.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">GET</code></td>
+<td>Used for retrieving resources.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">POST</code></td>
+<td>Used for creating resources.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">PATCH</code></td>
+<td>Used for updating resources with partial JSON data.  For instance, an Issue resource has <code class="prettyprint">title</code> and <code class="prettyprint">body</code> attributes.  A PATCH request may accept one or more of the attributes to update the resource.  PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept <code class="prettyprint">POST</code> requests.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">PUT</code></td>
+<td>Used for replacing resources or collections. For <code class="prettyprint">PUT</code> requests with no <code class="prettyprint">body</code> attribute, be sure to set the <code class="prettyprint">Content-Length</code> header to zero.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">DELETE</code></td>
+<td>Used for deleting resources.</td>
+</tr>
+</tbody></table>
+
+<h2 id="cross-origin-resource-sharing">Cross Origin Resource Sharing</h2>
+
+<p>The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin. You can read the CORS W3C Recommendation, or the intro from the HTML 5 Security Guide.</p>
+
+          <h1 id="operator-public-api.">Operator public API.</h1>
+
+<p>The operators&rsquo; public API comprises a set of HTTP REST endpoints that can be used from the browser, command line, a server application, or other devices.</p>
+
+<h2 id="headers">Headers</h2>
+
+<p>In order to use the REST API, every request needs to include at least 2 headers: the  <code class="prettyprint">Authorization</code> and the <code class="prettyprint">Accept</code>.</p>
+
+<h3 id="authorization">Authorization</h3>
+
+<p>Every request needs to include either the operator <code class="prettyprint">SessionId</code> or <code class="prettyprint">ApiToken</code>. It is recommended to use the API token which you can request from our support team. The API token is assigned per operator and currently only operators with manager privileges have the token enabled.</p>
+
+<blockquote>
+<p>API token example: curl request which includes the API token</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl -i https://api.salemove.com/engagements --header <span class="s2">"Authorization: ApiToken MY_SECRET_API_TOKEN"</span>
+</code></pre>
+
+<blockquote>
+<p>Example with javascript</p>
+</blockquote>
+<pre class="highlight javascript"><code>    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+      <span class="na">type</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.salemove.com/engagements'</span><span class="p">,</span>
+      <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'Authorization'</span><span class="p">:</span> <span class="s1">'ApiToken MY_SECRET_API_TOKEN'</span>
+      <span class="p">},</span>
+      <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+          <span class="nx">ajaxResponse</span> <span class="o">=</span> <span class="nx">response</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+</code></pre>
+
+<h3 id="accept-token">Accept token</h3>
+
+<p>The API version must be explicitly set in every request via the <code class="prettyprint">Accept</code> header.</p>
+
+<blockquote>
+<p>API version in the <code class="prettyprint">Accept</code> header</p>
+</blockquote>
+<pre class="highlight shell"><code>Accept: application/vnd.salemove.v1+json
+</code></pre>
+
+<h2 id="rest-api">REST API</h2>
+
+<h3 id="list-engagements">List engagements</h3>
+
+<blockquote>
+<p>List engagements</p>
+</blockquote>
+<pre class="highlight shell"><code>GET /engagements
+</code></pre>
+
+<p>Fetches a collection of all engagements that the current manager has access to configure. The manager needs to have access to the site to be able to fetch an engagement from there. The collection is paginated and sorted by id (ascending).</p>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements?page=2"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"next_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements?page=2"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"engagements"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/4"</span><span class="w">
+              </span><span class="p">}</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="s2">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/1"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"chat_transcript"</span><span class="p">:</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/1/chat_trascript"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/2"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/5"</span><span class="w">
+              </span><span class="p">}</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="s2">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/6"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"chat_transcript"</span><span class="p">:</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/2/chat_trascript"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="get-single-engagement">Get single engagement</h3>
+
+<blockquote>
+<p>Get single engagement</p>
+</blockquote>
+<pre class="highlight shell"><code>GET /enagements/<span class="o">{</span>engagement_id<span class="o">}</span>
+</code></pre>
+
+<p>Fetches an engagement. The manager needs to have access to the site that the engagement belongs to.</p>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/2"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/4"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/1"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"chat_transcript"</span><span class="p">:</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/2/chat_trascript"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="get-engagement-chat-transcript">Get engagement chat transcript</h3>
+
+<blockquote>
+<p>Get engagement chat transcript</p>
+</blockquote>
+<pre class="highlight shell"><code>GET /enagements/<span class="o">{</span>engagement_id<span class="o">}</span>/chat_transcript
+</code></pre>
+
+<p>Fetches the engagements chat transcript. The manager needs to have access to the site that the engagement belongs to.</p>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">      </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-03-20T14:21:09.475Z"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"sender"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"visitor"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"is"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-03-20T14:21:09.475Z"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"sender"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/4"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kalle Kaalikas"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operator"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chat"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-03-20T14:21:09.475Z"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"sender"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/5"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kalle Kaalikas"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operator"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<h3 id="get-visitor-by-id">Get visitor by id</h3>
+
+<blockquote>
+<p>Get visitor by id</p>
+</blockquote>
+<pre class="highlight shell"><code>GET /visitors/<span class="o">{</span>visitor_id<span class="o">}</span>
+</code></pre>
+
+<p>Fetches the engagements chat transcript. The manager needs to be able to have access to the site that the visitor visited.</p>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test@email.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55443322"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"note"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some random dude"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"custom_attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"These are custom fields, which you can define yourself. Those shown below are just examples"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"home_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Winston"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"vip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="list-operators">List operators</h3>
+
+<blockquote>
+<p>List operators</p>
+</blockquote>
+<pre class="highlight shell"><code>GET /operators
+</code></pre>
+
+<p>Fetches an operator that the manager can manage and configure. The manager needs to have access to the site in order to fetch the sites&rsquo; operators.</p>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators?page=2"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"next_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators?page=1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/4"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Manager"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"manager@email.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55443322"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"available"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"manager"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/5"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test@email.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55443322"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"available"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operator"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="get-an-operator">Get an operator</h3>
+
+<blockquote>
+<p>Get an operator</p>
+</blockquote>
+<pre class="highlight shell"><code>GET /operators/<span class="o">{</span>operator_id<span class="o">}</span>
+</code></pre>
+
+<p>Lists all the operators that the manager can manage and configure. The manager needs to have access to the site in order to fetch the sites&rsquo; operators. The collection is paginated and sorted by ascending id.</p>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/4"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Manager"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"manager@email.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55443322"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"available"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"manager"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="update-an-operator">Update an operator</h3>
+
+<p>Updates the specified operator that the manager can manage and configure. The manager needs to have access to the site in order to access the sites&rsquo; operator.</p>
+
+<blockquote>
+<p>Update an operator</p>
+</blockquote>
+<pre class="highlight shell"><code>PATCH /operators/<span class="o">{</span>operator_id<span class="o">}</span>
+</code></pre>
+
+<blockquote>
+<ul>
+<li>Request body</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Merry John"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some@new.email"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"999993333"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"available"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/5"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Merry John"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some@new.email"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"999993333"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"available"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operator"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+          <h1 id="visitor-public-api.">Visitor public API.</h1>
+
+<p>The visitor public API consists of HTTP REST endpoints, javscript, HTML, CSS API and hotlinks. The API can only be used straight in the visitors&rsquo; browser on the site - it cannot be used by third party services outside the site.</p>
+
+<h2 id="headers">Headers</h2>
+
+<p>In order to use the REST API, the request needs to include at least 3 headers: <code class="prettyprint">Authorization</code>, <code class="prettyprint">Accept</code> and <code class="prettyprint">X-Salemove-Visit-Session-Id</code>.</p>
+
+<h3 id="authorization">Authorization</h3>
+
+<p>The request has to include the visitors&rsquo; <code class="prettyprint">SessionId</code>. The visitor session id on the site can be retrieved by using the SaleMove javascript API.</p>
+
+<blockquote>
+<p>Authorization</p>
+</blockquote>
+<pre class="highlight javascript"><code><span class="s1">'Authorization'</span><span class="p">,</span> <span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">getRequestHeaders</span><span class="p">()[</span><span class="s1">'Authorization'</span><span class="p">]</span>
+</code></pre>
+
+<h3 id="accept-token">Accept token</h3>
+
+<p>The API version must be explicitly set in the request <code class="prettyprint">Accept</code> header.</p>
+
+<blockquote>
+<p>Accept token</p>
+</blockquote>
+<pre class="highlight shell"><code>Accept: application/vnd.salemove.v1+json
+</code></pre>
+
+<h3 id="x-salemove-visit-session-id-token">X-Salemove-Visit-Session-Id token</h3>
+
+<p>The request also needs to include <code class="prettyprint">X-Salemove-Visit-Session-Id</code>.</p>
+
+<blockquote>
+<p>X-Salemove-Visit-Session-Id token</p>
+</blockquote>
+<pre class="highlight javascript"><code><span class="s1">'X-Salemove-Visit-Session-Id'</span><span class="p">,</span> <span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">getRequestHeaders</span><span class="p">()[</span><span class="s1">'X-Salemove-Visit-Session-Id'</span><span class="p">]</span>
+</code></pre>
+
+<h3 id="full-ajax-example">Full ajax example</h3>
+
+<p>The following is an example of a ajax request including all necessary headers.</p>
+
+<blockquote>
+<p>Full ajax example</p>
+</blockquote>
+<pre class="highlight javascript"><code><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+  <span class="na">type</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.salemove.com/visitor'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">getRequestHeaders</span><span class="p">(),</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="nx">ajaxResponse</span> <span class="o">=</span> <span class="nx">response</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+
+<h2 id="rest-api">REST API</h2>
+
+<h3 id="get-current-visitor">Get current visitor</h3>
+
+<blockquote>
+<p>Get current visitor</p>
+</blockquote>
+<pre class="highlight shell"><code>GET /visitor
+</code></pre>
+
+<p>Fetches the information of current visitor on the site.</p>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.salemove.com/visitor"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test@email.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55443322"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"note"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some random dude"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"custom_attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"These are custom fields, which you can define yourself. Those shown below are just examples"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"home_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Winston"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"vip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="update-current-visitor">Update current visitor</h3>
+
+<blockquote>
+<p>Update current visitor</p>
+</blockquote>
+<pre class="highlight shell"><code>POST /visitor
+</code></pre>
+
+<p>Updates the information of the current visitor on the site. You can send custom attributes as key-value pairs to the visitor. The server treats all keys and values as strings and also returns them as strings. You cannot use nested key-value pairs.</p>
+
+<p>The <code class="prettyprint">note_update_method</code> parameter takes either value <code class="prettyprint">replace</code> which replaces existing notes or value <code class="prettyprint">append</code> which adds note to the existing notes. If this field is left out, the default <code class="prettyprint">replace</code> value is omitted.</p>
+
+<blockquote>
+<ul>
+<li>Request body</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test@email.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55443322"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"note"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some random dude"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"note_update_method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"append"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"custom_attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"These are custom fields, which you can define yourself. Those shown below are just examples"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"home_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Winston"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"vip"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_visited"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-02-18T12:24:34.420Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.salemove.com/visitor"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test@email.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55443322"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"note"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some random dude"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"custom_attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"These are custom fields, which you can define yourself. Those shown below are just examples"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"home_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Winston"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"vip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_visited"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-02-18T12:24:34.420Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="javascript-api">Javascript API</h2>
+
+<h3 id="fetching-the-api">Fetching the API</h3>
+
+<p>Fetching the API will return a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">promise</a>. Once all SaleMove scripts have been loaded on the site, the promise will resolve and return the javascript API.</p>
+
+<blockquote>
+<p>Fetching the API</p>
+</blockquote>
+<pre class="highlight javascript"><code><span class="nx">sm</span><span class="p">.</span><span class="nx">getApi</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">api</span><span class="p">){</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"I got the api!"</span><span class="p">,</span> <span class="nx">api</span><span class="p">);</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">salemoveApi</span> <span class="o">=</span> <span class="nx">api</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"An error occured: "</span><span class="p">,</span> <span class="nx">err</span><span class="p">)}</span>
+  <span class="p">);</span>
+</code></pre>
+
+<h3 id="events">Events</h3>
+
+<blockquote>
+<p>Events</p>
+</blockquote>
+<pre class="highlight shell"><code>ENGAGEMENT_START
+ENGAGEMENT_END
+</code></pre>
+
+<p>All the available events that the SaleMove platform can fire are listed under the <code class="prettyprint">EVENTS</code> variable.</p>
+<pre class="highlight javascript"><code><span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">EVENTS</span><span class="p">.</span><span class="nx">ENGAGEMENT_START</span>
+</code></pre>
+
+<h4 id="add-event-listener">add Event Listener</h4>
+
+<blockquote>
+<p>addEventListener</p>
+</blockquote>
+<pre class="highlight javascript"><code><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">eventName</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span>
+</code></pre>
+
+<p>To add an event listener to the API, you can use the <code class="prettyprint">addEventListener</code> method. The callback will be fired when SaleMove application fires the event</p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight javascript"><code><span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span>
+  <span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">EVENTS</span><span class="p">.</span><span class="nx">ENGAGEMENT_END</span><span class="p">,</span>
+  <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'the engagement ended!'</span><span class="p">)}</span>
+<span class="p">);</span>
+</code></pre>
+
+<h4 id="remove-event-listener">remove Event Listener</h4>
+
+<blockquote>
+<p>removeEventListener</p>
+</blockquote>
+<pre class="highlight javascript"><code><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">eventName</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span>
+</code></pre>
+
+<p>It is possible to remove callbacks that have been previously registered.</p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight javascript"><code><span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span>
+  <span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">EVENTS</span><span class="p">.</span><span class="nx">ENGAGEMENT_END</span><span class="p">,</span>
+  <span class="nx">my_function</span><span class="p">}</span>
+<span class="p">);</span>
+</code></pre>
+
+<h4 id="get-request-headers">get Request Headers</h4>
+
+<blockquote>
+<p>getRequestHeaders</p>
+</blockquote>
+<pre class="highlight javascript"><code><span class="nx">getRequestHeaders</span><span class="p">()</span>
+</code></pre>
+
+<p>Returns a hash of the headers and values that are required for the visitor to authenticate with the API.</p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight javascript"><code><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+  <span class="na">type</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.salemove.com/visitor'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="nx">salemoveApi</span><span class="p">.</span><span class="nx">getRequestHeaders</span><span class="p">(),</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+      <span class="nx">ajaxResponse</span> <span class="o">=</span> <span class="nx">response</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+
+<h2 id="html-and-css-api">HTML and CSS API</h2>
+
+<h3 id="hiding-some-elements-from-the-operator">Hiding some elements from the operator</h3>
+
+<blockquote>
+<p>Hiding some elements from the operator</p>
+</blockquote>
+<pre class="highlight html"><code>class: sm_cobrowsing_hidden_field
+</code></pre>
+
+<p>To hide an element for the operator during observation or cobrowsing, assign a CSS class to an element.</p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">'sm_cobrowsing_hidden_field'</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">'sm_cobrowsing_hidden_field other-classes'</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">'other-classes sm_cobrowsing_hidden_field'</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">'other-classes sm_cobrowsing_hidden_field'</span> <span class="na">other=</span><span class="s">"..."</span><span class="nt">&gt;</span>..<span class="nt">&lt;/input&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">'other-classes sm_cobrowsing_hidden_field'</span> <span class="na">other=</span><span class="s">"..."</span><span class="nt">&gt;</span>..<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+
+<h3 id="masking-a-field-from-the-operator">Masking a field from the operator</h3>
+
+<blockquote>
+<p>Masking a field from the operator</p>
+</blockquote>
+<pre class="highlight html"><code>class: sm_cobrowsing_masked_field
+</code></pre>
+
+<p>To hide the value of an element for the operator during observation or cobrowsing, assign a CSS class to an input element. Every character that the visitor types to that field will be replaced with an asterisk <code class="prettyprint">*</code> for the operator.</p>
+
+<blockquote>
+<ul>
+<li>Sample usage </li>
+</ul>
+</blockquote>
+<pre class="highlight html"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"action"</span> <span class="na">method=</span><span class="s">"get"</span><span class="nt">&gt;</span>
+First name:
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">"sm_cobrowsing_masked_field"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"first_name"</span> <span class="nt">/&gt;</span>
+Last name:
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">"sm_cobrowsing_masked_field last_name_class"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"last_name"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+
+<h3 id="disabling-some-elements-for-the-operator">Disabling some elements for the operator</h3>
+
+<blockquote>
+<p>Disabling some elements for the operator</p>
+</blockquote>
+<pre class="highlight html"><code>class: sm_cobrowsing_disabled_field
+</code></pre>
+
+<p>To disable an element for the operator during cobrowsing, assign a CSS class to an input element. The operator cannot interact with the element. </p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight html"><code><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"action"</span> <span class="na">method=</span><span class="s">"get"</span><span class="nt">&gt;</span>
+First name:
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">"sm_cobrowsing_disabled_field"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"first_name"</span> <span class="nt">/&gt;</span>
+Last name:
+<span class="nt">&lt;input</span> <span class="na">class=</span><span class="s">"sm_cobrowsing_disabled_field last_name_class "</span><span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"last_name"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre>
+
+<h3 id="external-button">External button</h3>
+
+<blockquote>
+<p>External button</p>
+</blockquote>
+<pre class="highlight html"><code>class: salemove-button
+</code></pre>
+
+<p>To put a SaleMove specific button on the web page that will open media-selection dialog when clicked, assign a CSS class to a button or span element. The button color and text can be customized by speaking with your customer success manager.</p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">'salemove-button'</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">'salemove-button'</span><span class="nt">&gt;</span>...<span class="nt">&lt;/span&gt;</span>
+</code></pre>
+
+<h3 id="custom-element-external-button">Custom element external button</h3>
+
+<blockquote>
+<p>Custom element external button</p>
+</blockquote>
+<pre class="highlight html"><code>Attribute: data-sm-show-media-selection-on=[event]
+</code></pre>
+
+<p>To put a SaleMove specific button to the page on any type of element, not just button or span, that will trigger media-selection, use a custom javascript attribute on the element with the desired (DOM event)[http://www.w3schools.com/jsref/dom_obj_event.asp].</p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight html"><code>link: <span class="nt">&lt;a</span> <span class="na">data-sm-show-media-selection-on=</span><span class="s">"click"</span> <span class="na">href=</span><span class="s">"javascript:void(0);"</span><span class="nt">&gt;</span>...<span class="nt">&lt;/a&gt;</span>
+div: <span class="nt">&lt;div</span> <span class="na">data-sm-show-media-selection-on=</span><span class="s">"dblclick"</span><span class="nt">&gt;&lt;h3&gt;</span>Double-click me to start an engagement!<span class="nt">&lt;/h3&gt;&lt;/div&gt;</span>
+</code></pre>
+
+<h2 id="hotlink">Hotlink</h2>
+
+<h3 id="trigger-media-selection">Trigger media selection</h3>
+
+<blockquote>
+<p>Trigger media selection</p>
+</blockquote>
+<pre class="highlight html"><code>URL-hash: #sm_show_media_selection
+</code></pre>
+
+<p>To trigger the media selection dialog immediately when the page opens, put a hash at the end of the URL. This can be used, for example, to open the media selection immediately after the site visitor clicks on a link and navigates to a new page.</p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight html"><code>With site address:      http://www.site.com
+The ‘hotlink' would be: http://www.site.com#sm_show_media_selection.
+
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">'http://www.site.com#sm_show_media_selection'</span><span class="nt">&gt;</span>...<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+
+<h3 id="trigger-expand-reactive-tab-for-x-seconds">Trigger expand reactive tab for X seconds</h3>
+
+<blockquote>
+<p>Trigger expand reactive tab for X seconds</p>
+</blockquote>
+<pre class="highlight html"><code>URL-hash: #sm_show_reactive_tab_20_seconds
+</code></pre>
+
+<p>To expand the reactive tab for X seconds when the linked page opens, put a hash at the end of the URL. This can be used, for example, to show the operator selector immediately after the visitor clicks on a link and navigates to a new page.</p>
+
+<blockquote>
+<ul>
+<li>Sample usage</li>
+</ul>
+</blockquote>
+<pre class="highlight html"><code>With site address:      http://www.site.com
+The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
+
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">'http://www.site.com#sm_show_reactive_tab_20_seconds'</span><span class="nt">&gt;</span>...<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+
+<h3 id="show-notification-and-save-visitor-contact-information-when-he-first-comes-to-the-page">Show notification and save visitor contact information when he first comes to the page</h3>
+
+<blockquote>
+<p>Show notification and save visitor contact information when he first comes to the page</p>
+</blockquote>
+<pre class="highlight html"><code>URL-hash: #sm_show_notification
+Notification message: #sm_show_notification
+</code></pre>
+
+<blockquote>
+<p>Contact information saving:</p>
+</blockquote>
+<pre class="highlight html"><code>#sm_show_notification?name=visitor+name<span class="err">&amp;</span>phone=56567775<span class="err">&amp;</span>email=visitor@email.com<span class="err">&amp;</span>note=visitor+note<span class="err">&amp;</span>custom_attributes[attribute1]=attribute1+value<span class="err">&amp;</span>custom_attributes[attribute2]=attribute2+value
+</code></pre>
+
+<blockquote>
+<p>Both notification and contact information saving:</p>
+</blockquote>
+<pre class="highlight html"><code>#sm_show_notification?message=some+message<span class="err">&amp;</span>name=visitor+name<span class="err">&amp;</span>phone=56567775<span class="err">&amp;</span>email=visitor@email.com<span class="err">&amp;</span>note=visitor+note<span class="err">&amp;</span>custom_attributes[attribute1]=attribute1+value<span class="err">&amp;</span>custom_attributes[attribute2]=attribute2+value
+</code></pre>
+
+<p>To immediately show a notification to operators, or save visitors&rsquo; contact information when the visitor comes to the site, you can put the hash at the end of the URL. This can be used, for example for high-profile clients who should be contacted immediately after they come to the page and some information about them can already be pre-filled.</p>
+
+<p>The query parameters should be put after the URL-hash, separated with the question mark <strong>&rsquo;?&rsquo;</strong> sign from the URL-hash. When using multiple parameters, separate them with the ampersand <strong>&rsquo;&amp;&rsquo;</strong> sign.</p>
+
+<p>When you want to <strong>use spaces</strong> in parameter values, you <strong>need to replace spaces with &rsquo;+&rsquo; or &rsquo;%20&rsquo; signs</strong>. The &rsquo;+&rsquo; or &rsquo;%20&rsquo; signs will be replaced with spaces automatically.</p>
+
+<p>If some or all contact information parameters are missing, then missing values will not be updated. If no message is given, then a default message will be used for notification.</p>
+
+<blockquote>
+<p>The explanation of parameters
+This message is shown to the operator:</p>
+</blockquote>
+<pre class="highlight html"><code>?message=some+message+to+show+to+the+operator
+</code></pre>
+
+<blockquote>
+<p>This name will be saved as the visitor name:</p>
+</blockquote>
+<pre class="highlight html"><code>?name=Visitor+Name
+</code></pre>
+
+<blockquote>
+<p>This email will be saved as the visitor email:</p>
+</blockquote>
+<pre class="highlight html"><code>?email=visitor@email.com 
+</code></pre>
+
+<blockquote>
+<p>This phone will be saved as the visitors&rsquo; phone:</p>
+</blockquote>
+<pre class="highlight html"><code>?phone=56565677
+</code></pre>
+
+<blockquote>
+<p>This note will be appended to the existing visitors&rsquo; note:</p>
+</blockquote>
+<pre class="highlight html"><code>?note=Some+note+about+the+visitor
+</code></pre>
+
+<p>You can save custom information about the visitor as specified in the &lsquo;Update current visitor&rsquo; section. Each attribute key must be put inside brackets and multiple custom attributes must be separated with the ampersand &rsquo;&amp;&rsquo; sign as other parameters.</p>
+
+<blockquote>
+<p>Save custom information about the visitor as specified in the &#39;Update current visitor&rsquo; section</p>
+</blockquote>
+<pre class="highlight html"><code>?custom_attributes[attribute1]=attribute1+value<span class="err">&amp;</span>custom_attributes[attribute2]=attribute2+value
+</code></pre>
+
+          <h1 id="sites-public-api">Sites public API</h1>
+
+<h2 id="create-a-new-site">Create a new site</h2>
+
+<blockquote>
+<p>Create a new site</p>
+</blockquote>
+<pre class="highlight shell"><code>POST /sites
+</code></pre>
+
+<p>The manager can create a new site with default settings in SaleMove platform. After that site is created, the SAML should be created so operators can use the site. The site needs to include SaleMove scripts on its pages for this feature to work.</p>
+
+<p>To create a new site, you must supply the site name and domain. Both the name and the domain of the site must be unique or the site creation will fail with appropriate error message. There can be more than 1 domain for a single site. The domains need to be full URIs.</p>
+
+<blockquote>
+<ul>
+<li>Request body</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New site name"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"http://some.domain.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://other.domain.com"</span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"hostnames"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"other.domain.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"some.domain.com"</span><span class="p">],</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New site name"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="create-a-saml">Create a SAML</h2>
+
+<blockquote>
+<p>Create a SAML</p>
+</blockquote>
+<pre class="highlight shell"><code>POST /saml/<span class="o">{</span>saml_id<span class="o">}</span>
+</code></pre>
+
+<p>The manager can create a SAML for the site in SaleMove platform. The SAML can be created for any site the manager has administrator access.</p>
+
+<p>A single site can only have a single SAML. To update the SAML see <a href="#update-the-saml">update a SAML</a>.</p>
+
+<p>After the SAML is created, you can access it through the subdomain which was provided. e.g. if the requested subdomain is &lsquo;mysite&rsquo;, then you will be able to access the site by going to the URL https://mysite.app.salemove.com</p>
+
+<p>To create a SAML for the site, you must provide the following parameters:</p>
+
+<p>* idp_metadata_url        # An URL to the SAML Identity provider configuration metadata.
+    * site_id                 # The id of the site that the SAML will be created on
+    * name_identifier_format  # The name identifier format of the SAML
+    * subdomain               # The subdomain of the SAML which will become this sites URL. e.g. &#39;mysite&rsquo; will become into &#39;mysite.app.salemove.com&rsquo;</p>
+
+<p>In addition, you can provide these optional SAML parameters:</p>
+
+<p>* authn_context           # The authentication context of the SAML
+    * idp_name_attribute      # The identity provider name attribute
+    * idp_email_attribute     # The identity provider email attribute</p>
+
+<p>Once the SAML is created, you can access the SAML metadata by going to your subdomains&rsquo; /saml/metadata. For example, if your subdomain was mysite, then you can access your SAML metadata by going to the url https://mysite.app.salemove.com/saml/metadata</p>
+
+<blockquote>
+<ul>
+<li>Request body</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"idp_metadata_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://salemove.onelogin.com/saml/metadata/417618"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name_identifier_format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"subdomain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysite"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"authn_context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some auth value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_name_attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some idp name value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_email_attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some idp email value"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"subdomain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysite"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_metadata_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://salemove.onelogin.com/saml/metadata/417618"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name_identifier_format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"authn_context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some auth value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_name_attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some idp name value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_email_attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some idp email value"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="update-the-saml">Update the SAML</h2>
+
+<blockquote>
+<p>Update the SAML</p>
+</blockquote>
+<pre class="highlight shell"><code>POST /saml/<span class="o">{</span>saml_id<span class="o">}</span>
+</code></pre>
+
+<p>The manager can update the SAML.</p>
+
+<p>To update a SAML for the site, you must provide the following parameters:</p>
+
+<p>* saml_id                 # The id of the SAML you will change
+    * site_id                 # The id of the site that the SAML will be created on. The site id is needed for authorization purposes</p>
+
+<p>In addition, you can provide the following attributes:</p>
+
+<p>* idp_metadata_url        # An URL to the SAML Identity provider configuration metadata
+    * name_identifier_format  # The name identifier format of the SAML
+    * subdomain               # The subdomain of the SAML which will become this sites URL. e.g. &#39;mysite&rsquo; will become into &#39;mysite.app.salemove.com&rsquo;
+    * authn_context           # The authentication context of the SAML
+    * idp_name_attribute      # The identity provider name attribute
+    * idp_email_attribute     # The identity provider email attribute</p>
+
+<blockquote>
+<ul>
+<li>Request body</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"idp_metadata_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://salemove.onelogin.com/saml/metadata/417618"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name_identifier_format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"subdomain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysite"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"authn_context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some auth value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_name_attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some idp name value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_email_attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some idp email value"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<ul>
+<li>Response 200 (application/json)</li>
+</ul>
+</blockquote>
+<pre class="highlight json"><code><span class="w">        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"subdomain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysite"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_metadata_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://salemove.onelogin.com/saml/metadata/417618"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name_identifier_format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"authn_context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some auth value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_name_attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some idp name value"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"idp_email_attribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some idp email value"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+      </div>
+      <div class="dark-box">
+      </div>
+    </div>
+  </body>
+</html>
