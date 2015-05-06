@@ -1,8 +1,8 @@
-# Operator public API.
-The operators' public API comprises a set of HTTP REST endpoints that can be used from the browser, command line, a server application, or other devices.
+# Operator API.
+The operators' API comprises a set of HTTP REST endpoints that can be used from the browser, command line, a server application, or other devices.
 
 ## Headers
-In order to use the REST API, every request needs to include at least 2 headers: the  ```Authorization``` and the ```Accept```.
+In order to use the REST Engagement API, every request needs to include at least 2 headers: the  ```Authorization``` and the ```Accept```.
 
 ### Authorization
 Every request needs to include either the operator ```SessionId``` or ```ApiToken```. It is recommended to use the API token which you can request from our support team. The API token is assigned per operator and currently only operators with manager privileges have the token enabled.
@@ -39,9 +39,9 @@ The API version must be explicitly set in every request via the ```Accept``` hea
 Accept: application/vnd.salemove.v1+json
 ```
 
-## REST API
+# Engagement API
 
-### List engagements
+## List engagements
 
 > List engagements
 
@@ -93,7 +93,7 @@ Fetches a collection of all engagements that the current manager has access to c
       }
 ```
 
-### Get single engagement
+## Get single engagement
 
 > Get single engagement
 
@@ -125,7 +125,7 @@ Fetches an engagement. The manager needs to have access to the site that the eng
       }
 ```
 
-### Get engagement chat transcript
+## Get engagement chat transcript
 
 > Get engagement chat transcript
 
@@ -170,7 +170,7 @@ Fetches the engagements chat transcript. The manager needs to have access to the
       ]
 ```
 
-### Get visitor by id
+## Get visitor by id
 
 > Get visitor by id
 
@@ -198,7 +198,7 @@ Fetches the engagements chat transcript. The manager needs to be able to have ac
       }
 ```
 
-### List operators
+## List operators
 
 > List operators
 
@@ -236,7 +236,7 @@ Fetches an operator that the manager can manage and configure. The manager needs
       }
 ```
 
-### Get an operator
+## Get an operator
 
 > Get an operator
 
@@ -260,7 +260,7 @@ Lists all the operators that the manager can manage and configure. The manager n
       }
 ```
 
-### Update an operator
+## Update an operator
 
 Updates the specified operator that the manager can manage and configure. The manager needs to have access to the site in order to access the sites' operator.
 

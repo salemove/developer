@@ -1,5 +1,5 @@
 ---
-title: Salemove API
+title: Salemove API Overview
 
 includes:
   - operator_api
@@ -9,8 +9,8 @@ includes:
 search: true
 ---
 
-#SaleMove public API.
-Welcome to SaleMove public API documentation!
+#SaleMove API.
+Welcome to SaleMove API documentation!
 
 ## API types
 

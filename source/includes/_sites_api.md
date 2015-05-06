@@ -1,4 +1,4 @@
-# Sites public API
+# Sites API
 
 ## Create a new site
 

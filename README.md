@@ -8,6 +8,10 @@ NB! If you need to modify anything, work on **master** branch. To apply updates,
  1. create new file to "source/includes/" folder with underscore "_" in front e.g. "_new_file.md"
  2. add the file name to the top of the "source/index.md" file after `includes:` e.g. "- new_file"
 
+ OR
+
+ 1. add one hashtag "#" to the beginning of the line, making it H1 type heading, making it to appear in the menu. 
+
  To make changes to existing pages, modify according .md files in previously mentioned locations!
 
 ### Test in local machine

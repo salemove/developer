@@ -1,5 +1,5 @@
-# Visitor public API.
-The visitor public API consists of HTTP REST endpoints, javscript, HTML, CSS API and hotlinks. The API can only be used straight in the visitors' browser on the site - it cannot be used by third party services outside the site.
+# Visitor API.
+The visitor API consists of HTTP REST endpoints, javscript, HTML, CSS API and hotlinks. The API can only be used straight in the visitors' browser on the site - it cannot be used by third party services outside the site.
 
 ## Headers
 In order to use the REST API, the request needs to include at least 3 headers: ```Authorization```, ```Accept``` and ```X-Salemove-Visit-Session-Id```.
